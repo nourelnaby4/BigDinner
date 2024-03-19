@@ -1,20 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using BigDinner.Persistence.Context;
+using BigDinner.Persistence.Identities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
-namespace BigDinner.Persistence
+namespace BigDinner.Persistence;
+
+public static class PersistenceModuleDependencies
 {
-    public static class PersistenceModuleDependencies
+    public static IServiceCollection AddPersistenceDependencies(this IServiceCollection services, IConfiguration configuration)
     {
-        public static IServiceCollection AddApplicationDependencies(this IServiceCollection services, IConfiguration configuration)
+        var connectioString = configuration.GetConnectionString("DefaultConnection");
+        services.AddDbContext<ApplicationDbContext>(option =>
+        option.UseSqlServer(connectioString));
+
+        services.AddControllers().AddJsonOptions(x =>
+            x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
+        services.AddIdentity<ApplicationUser, IdentityRole>(option =>
         {
-            var assembly = Assembly.GetExecutingAssembly();
+            // Password settings.
+            option.Password.RequireDigit = false;
+            option.Password.RequireLowercase = false;
+            option.Password.RequireNonAlphanumeric = false;
+            option.Password.RequireUppercase = false;
+            option.Password.RequiredLength = 6;
+            option.Password.RequiredUniqueChars = 0;
 
+            // Lockout settings.
+            option.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+            option.Lockout.MaxFailedAccessAttempts = 5;
+            option.Lockout.AllowedForNewUsers = true;
 
-            return services;
-        }
+            // User settings.
+            option.User.AllowedUserNameCharacters =
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+            option.User.RequireUniqueEmail = true;
+            option.SignIn.RequireConfirmedEmail = false;
+
+        })
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
+        return services;
     }
 }
+
