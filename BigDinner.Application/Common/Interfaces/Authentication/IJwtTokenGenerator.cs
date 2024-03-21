@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BigDinner.Domain.Identities;
+
 
 namespace BigDinner.Application.Common.Interfaces.Authentication
 {
     public interface IJwtTokenGenerator
     {
-        string GenerateToken(Guid userId,string firstName,string lastName);
+        Task<string> GenerateToken(ApplicationUser user);
     }
 }

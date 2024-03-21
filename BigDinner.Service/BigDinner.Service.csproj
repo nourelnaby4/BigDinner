@@ -15,10 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BigDinner.Application\BigDinner.Application.csproj" />
     <ProjectReference Include="..\BigDinner.Domain\BigDinner.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Authentication\" />
+    <ProjectReference Include="..\BigDinner.Persistence\BigDinner.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

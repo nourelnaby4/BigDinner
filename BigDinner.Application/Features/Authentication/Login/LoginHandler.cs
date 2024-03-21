@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BigDinner.Application.Features.Authentication
+namespace BigDinner.Application.Features.Authentication.Login
 {
     public class LoginHandler : IRequestHandler<LoginRequest, LoginResponse>
     {
@@ -14,7 +14,5 @@ namespace BigDinner.Application.Features.Authentication
             throw new NotImplementedException();
         }
     }
-    public record LoginRequest(string Email, string Password) : IRequest<LoginResponse>;
-    public record LoginResponse(Guid Id, string FirstName, string LastName, string Email, string Token);
 
 }

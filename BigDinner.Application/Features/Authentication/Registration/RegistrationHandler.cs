@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BigDinner.Application.Features.Authentication
+namespace BigDinner.Application.Features.Authentication.Registration
 {
     public class RegistrationHandler : IRequestHandler<RegistrationRequest, RegistrationResponse>
     {
@@ -13,10 +13,4 @@ namespace BigDinner.Application.Features.Authentication
             throw new NotImplementedException();
         }
     }
-    public record RegistrationRequest(Guid Id, string FirstName, string LastName, string Email, string Token) 
-        : IRequest<RegistrationResponse>;
-
-    public record RegistrationResponse(Guid Id, string FirstName, string LastName, string Email, string Token);
-
-
 }

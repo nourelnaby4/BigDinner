@@ -1,6 +1,5 @@
-﻿using BigDinner.Persistence.Context;
-using BigDinner.Persistence.Identities;
-using Microsoft.AspNetCore.Identity;
+﻿using BigDinner.Domain.Identities;
+using BigDinner.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

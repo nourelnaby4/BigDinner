@@ -1,4 +1,4 @@
-﻿using BigDinner.Persistence.Identities;
+﻿using BigDinner.Domain.Identities;
 using System.Reflection;
 
 namespace BigDinner.Persistence.Context;
