@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
         .AddApplicationDependencies(configuration)
         .AddDomainDependencies(configuration)
         .AddPersistenceDependencies(configuration)
+        .AddDatabaseDependencies(configuration)
         .AddServiceDependencies(configuration)
         .AddJWtTokenDependencies(configuration);
 }
