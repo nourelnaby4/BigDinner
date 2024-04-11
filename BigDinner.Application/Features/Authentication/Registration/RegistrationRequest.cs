@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace BigDinner.Application.Features.Authentication.Registration
 {
 
-    public record RegistrationRequest(Guid Id, string FirstName, string LastName, string Email, string Token) : IRequest<RegistrationResponse>;
+    public record RegistrationRequest(Guid Id, string Username, string Email,string Password, string Token) : IRequest<AuthResponse>;
 
 
 }

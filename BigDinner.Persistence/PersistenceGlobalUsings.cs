@@ -8,6 +8,7 @@ global using Microsoft.EntityFrameworkCore;
 global using Microsoft.AspNetCore.Identity;
 global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-global using BigDinner.Application.Common.Interfaces.Repositories;
 global using BigDinner.Domain.Identities;
-
+global using BigDinner.Persistence.Context;
+global using BigDinner.Persistence.Repository;
+global using BigDinner.Application.Common.Interfaces.Repositories;

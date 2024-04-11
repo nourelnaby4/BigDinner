@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -23,7 +22,7 @@ namespace BigDinner.Service.Authentication
             _userClaimsService = userClaimsService;
             _dateProvider = dateTimeProvider;
         }
-        private async Task<TokenModel> GenerateToken(string email, string password)
+        public async Task<TokenModel> GenerateToken(string email, string password)
         {
 
             var user = await _userManager.FindByEmailAsync(email);
@@ -52,8 +51,6 @@ namespace BigDinner.Service.Authentication
         }
         public async Task<AuthResponse> CreateAuthModel(string email,string password)
         {
-           
-
             var tokenModel = await GenerateToken( email,  password);
             var roles = await _userManager.GetRolesAsync(tokenModel.User);
 

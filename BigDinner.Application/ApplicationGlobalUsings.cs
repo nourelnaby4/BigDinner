@@ -6,3 +6,7 @@ global using System.Threading.Tasks;
 global using MediatR;
 
 global using BigDinner.Domain.Identities;
+global using BigDinner.Application.Common.Interfaces.Repositories;
+
+
+global using Microsoft.AspNetCore.Identity;
