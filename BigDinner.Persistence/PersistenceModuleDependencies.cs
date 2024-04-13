@@ -1,5 +1,4 @@
-﻿using BigDinner.Persistence.Repository;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BigDinner.Persistence;

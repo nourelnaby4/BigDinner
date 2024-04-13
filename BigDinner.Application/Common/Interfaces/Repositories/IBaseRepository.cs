@@ -1,9 +1,11 @@
 ﻿
+using Microsoft.EntityFrameworkCore;
+
 namespace BigDinner.Application.Common.Interfaces.Repositories;
 
 public interface IBaseRepo<T> where T : class
 {
-    Task<T> GetByIdAsync(int id);
+    Task<T> GetByIdAsync(string id);
     Task<IEnumerable<T>> GetAsync();
     Task<T> AddAsync(T entity);
     T Update(T entity);
@@ -11,5 +13,7 @@ public interface IBaseRepo<T> where T : class
     Task<ICollection<T>> AddRangeAsync(ICollection<T> entities);
     void DeleteRange(ICollection<T> entities);
     void UpdateRange(ICollection<T> entities);
+
+    Task<int> SaveChangesAsync();
 }
 

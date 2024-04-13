@@ -23,7 +23,7 @@ public class BaseRepo<T> : IBaseRepo<T> where T : class
     #region Actions
 
 
-    public virtual async Task<T> GetByIdAsync(int id)
+    public virtual async Task<T> GetByIdAsync(string id)
     {
 
         return await _context.Set<T>().FindAsync(id);
@@ -82,6 +82,10 @@ public class BaseRepo<T> : IBaseRepo<T> where T : class
         }
     }
 
+    public async Task<int> SaveChangesAsync()
+    {
+        return await _context.SaveChangesAsync();
+    }
 
 
     #endregion

@@ -1,4 +1,4 @@
-﻿using BigDinner.Application.Features.Authentication;
+﻿using BigDinner.Application.Common.Models;
 using BigDinner.Domain.Identities;
 
 
