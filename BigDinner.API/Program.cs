@@ -17,14 +17,10 @@ builder.Services
     .AddDatabaseDependencies(configuration)
     .AddServiceDependencies(configuration)
     .AddJWtTokenDependencies(configuration);
-builder.Services.AddCarter();
-
 
 var app = builder.Build();
 
-app.MapCarter();
 app.UseMiddleware<GlobalExceptionHandlerMiddelware>();
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
