@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Serilog;
 using System.Net;
 using System.Text.Json;
 
@@ -20,6 +21,7 @@ public class GlobalExceptionHandlerMiddelware
         }
         catch (Exception error)
         {
+            Log.Error(error,error.Message, context.Request);
             var response = context.Response;
             response.ContentType = "application/json";
             var responseModel = new Response<string>() { Succeeded = false, Message = error?.Message };
