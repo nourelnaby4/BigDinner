@@ -21,9 +21,8 @@ namespace BigDinner.API.Controllers
               => GetResponse(await _mediator.Send(request));
 
         [HttpGet("test")]
-        public async Task<IActionResult> test()
+        public async Task<IActionResult> test(string name="saed")
         {
-            Log.Information("test info"); 
             throw new Exception("test for serilog error");
         }
 
