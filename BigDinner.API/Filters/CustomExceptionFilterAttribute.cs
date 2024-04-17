@@ -1,27 +1,24 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
+﻿using BigDinner.Application.Extensions;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Net;
-using System.Text.Json;
-using System.Xml;
 
-namespace BigDinner.API.Middleware;
-
-public class GlobalExceptionHandlerMiddelware
+namespace BigDinner.API.Filters
 {
-    private readonly RequestDelegate _next;
+    public class CustomExceptionFilterAttribute : ExceptionFilterAttribute
+    {
 
-    public GlobalExceptionHandlerMiddelware(RequestDelegate next)
-    {
-        _next = next;
-    }
-    public async Task InvokeAsync(HttpContext context)
-    {
-        try
+        public CustomExceptionFilterAttribute(ILogger<CustomExceptionFilterAttribute> logger)
         {
-            await _next(context);
         }
-        catch (Exception error)
+
+        public override async Task OnExceptionAsync(ExceptionContext context)
+        {
+            await HandleException(context.HttpContext, context.Exception);
+            await LogError(context);
+        }
+        private async Task HandleException(HttpContext context, Exception error)
         {
             var response = context.Response;
             response.ContentType = "application/json";
@@ -94,23 +91,28 @@ public class GlobalExceptionHandlerMiddelware
                     break;
             }
             var result = System.Text.Json.JsonSerializer.Serialize(responseModel);
+
             await response.WriteAsync(result);
+        }
 
+        private async Task LogError(ExceptionContext context)
+        {
+            var error = context.Exception;
 
-            var requestHeaders = context.Request.Headers.SelectMany(header => header.Value.Select(value => new { Name = header.Key, Value = value })).ToDictionary(header => header.Name, header => header.Value);
             // Serialize the log data object to JSON
-            string logDataJson = JsonConvert.SerializeObject(new
+            string logDataJson = Newtonsoft.Json.JsonConvert.SerializeObject(new
             {
                 Timestamp = DateTimeOffset.Now,
-                RequestPath = context.Request.Path,
-                RequestMethod = context.Request.Method,
-                RequestUrl = $"{context.Request.Scheme}://{context.Request.Host}{context.Request.Path}",
-                QueryString = context.Request.QueryString,
-                UserAgent = context.Request.Headers["User-Agent"],
-                IPAddress = context.Connection.RemoteIpAddress?.ToString(),
-                RequestHeaders = requestHeaders,
-                User = context.User?.Claims.ToList(),
-                RequestParameters = await GetRequestParameters(context),
+                RequestPath = context.HttpContext.Request.Path,
+                RequestMethod = context.HttpContext.Request.Method,
+                RequestUrl = $"{context.HttpContext.Request.Scheme}://{context.HttpContext.Request.Host}{context.HttpContext.Request.Path}",
+                UserAgent = context.HttpContext.Request.Headers["User-Agent"],
+                IPAddress = context.HttpContext.Connection.RemoteIpAddress?.ToString(),
+                RequestHeaders = context.HttpContext.GetRequestHeader(),
+                RequestParameters = await context.HttpContext.GetRequestParameters(),
+                RequestQuery = context.HttpContext.GetRequestQuery(),
+                RequestQueryString = context.HttpContext.Request.QueryString,
+                RequestBody = await context.HttpContext.GetRequestBody(),
                 ExceptionType = error.GetType().FullName,
                 ErrorMessage = error.Message,
                 StackTrace = error.StackTrace,
@@ -120,48 +122,11 @@ public class GlobalExceptionHandlerMiddelware
                     Message = error.InnerException.Message,
                     StackTrace = error.InnerException.StackTrace
                 } : null,
-                Response = result,
-            }, Newtonsoft.Json.Formatting.Indented); // Indented formatting for better readability
-
-            // Log the JSON string
+                Response = "", // Placeholder for response
+            }, Newtonsoft.Json.Formatting.Indented);  // Indented formatting for better readability
             Log.Error(error, "An error occurred while processing request: {@LogData}", logDataJson);
+            context.Result = new StatusCodeResult(500); // Internal Server Error
+            context.ExceptionHandled = true;
         }
-    }
-    private async Task<Dictionary<string, string>> GetRequestParameters(HttpContext context)
-    {
-        var parameters = new Dictionary<string, string>();
-
-        // Fetch query parameters
-        foreach (var (key, value) in context.Request.Query)
-        {
-            parameters[key] = value.ToString();
-        }
-
-        // Fetch form data (if any)
-        if (context.Request.HasFormContentType)
-        {
-            foreach (var (key, value) in context.Request.Form)
-            {
-                parameters[key] = value.ToString();
-            }
-        }
-
-        // Fetch JSON payload for POST requests (if applicable)
-        if (context.Request.Method == "POST" || context.Request.Method == "PUT")
-        {
-            // Assuming JSON payload for simplicity, adjust as per your needs
-            var requestBody = await new StreamReader(context.Request.Body).ReadToEndAsync();
-            if (!string.IsNullOrEmpty(requestBody))
-            {
-                var json = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(requestBody);
-                foreach (var (key, value) in json)
-                {
-                    parameters[key] = value;
-                }
-            }
-        }
-
-        return parameters;
     }
 }
-

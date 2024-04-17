@@ -19,13 +19,5 @@ namespace BigDinner.API.Controllers
         [HttpPost("sing-in")]
         public async Task<IActionResult> SignIn([FromBody] LoginRequest request)
               => GetResponse(await _mediator.Send(request));
-
-        [HttpGet("test")]
-        public async Task<IActionResult> test(string name="saed")
-        {
-            throw new Exception("test for serilog error");
-        }
-
-
     }
 }

@@ -1,9 +1,11 @@
 using BigDinner.API;
+using BigDinner.API.Filters;
 using BigDinner.API.Middleware;
 using BigDinner.Application;
 using BigDinner.Domain;
 using BigDinner.Persistence;
 using BigDinner.Service;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,7 @@ builder.Services
     .AddServiceDependencies(configuration)
     .AddJWtTokenDependencies(configuration);
 
+
 var CORS = "_cors";
 builder.Services.AddCors(options =>
 {
@@ -31,9 +34,7 @@ builder.Services.AddCors(options =>
 });
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-
-app.UseMiddleware<GlobalExceptionHandlerMiddelware>();
+app.UseMiddleware<EnableRequestBodyBufferingMiddleware>();
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UseHttpsRedirection();

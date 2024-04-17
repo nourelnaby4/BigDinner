@@ -1,4 +1,5 @@
 ﻿using BigDinner.API.Behavior;
+using BigDinner.API.Filters;
 using FluentValidation;
 using Serilog;
 using System.Reflection;
@@ -12,6 +13,10 @@ public static class ApiModuleDependencies
         var assembly = Assembly.GetExecutingAssembly();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+        services.AddControllers(options =>
+        {
+            options.Filters.Add<CustomExceptionFilterAttribute>();
+        });
         services.AddCarter();
         services.AddMediatR(config => config.RegisterServicesFromAssemblies(assembly));
         services.AddValidatorsFromAssembly(assembly);
