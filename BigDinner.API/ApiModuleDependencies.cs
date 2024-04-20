@@ -17,7 +17,6 @@ public static class ApiModuleDependencies
         {
             options.Filters.Add<CustomExceptionFilterAttribute>();
         });
-        services.AddCarter();
         services.AddMediatR(config => config.RegisterServicesFromAssemblies(assembly));
         services.AddValidatorsFromAssembly(assembly);
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));   //validation behavior 

@@ -11,4 +11,6 @@ global using Microsoft.AspNetCore.Mvc;
 
 global using BigDinner.API.Base;
 global using BigDinner.Application.Common.Models;
+global using BigDinner.Application.Extensions;
+
 
