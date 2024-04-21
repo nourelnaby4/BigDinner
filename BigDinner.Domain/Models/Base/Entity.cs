@@ -1,4 +1,4 @@
-﻿namespace BigDinner.Domain.Models.BaseModels;
+﻿namespace BigDinner.Domain.Models.BaseModels.Entity;
 
 public abstract class Entity<TId> : IEquatable<Entity<TId>>
     where TId : notnull

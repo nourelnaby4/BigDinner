@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BigDinner.Domain.ValueObjects
+﻿namespace BigDinner.Domain.Models.BaseModels
 {
     // importan hint that i can use record instead of this impelemetation 
     // but i do it for learning in deepth
