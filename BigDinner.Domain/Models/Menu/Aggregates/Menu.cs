@@ -1,48 +1,52 @@
-﻿using BigDinner.Domain.Models.BaseModels;
-using BigDinner.Domain.Models.Dinner.ValueObjects;
-using BigDinner.Domain.Models.Host.ValueObjects;
-using BigDinner.Domain.Models.Menu.Entities;
-using BigDinner.Domain.Models.MenueReview.ValueObjects;
+﻿using BigDinner.Domain.Models.Menus.Entities;
 
-namespace BigDinner.Domain.Models.Menu.Aggregates;
+namespace BigDinner.Domain.Models.Menus.Aggregates;
 
-public sealed class Menu : AggregateRoot<MenuId>
+public sealed class Menu : AggregateRoot<Guid>
 {
-    private readonly List<MenuSection> _section = new();
-    private readonly List<DinnerId> _dinnerIds = new();
-    private readonly List<MenuReviewId> _menuReviewIds = new();
+    private readonly List<MenuItem> _items = new();
 
-    public string Name { get; }
-    public string Description { get; }
-    public float AverageRating { get; }
-    public DateTime CreateDateOnUtc { get; }
-    public DateTime LastUpdateDateOnUtc { get; }
+    public string Name { get; private set; }
+    public string Description { get; private set; }
+    public float AverageRating { get; private set; }
+    public DateTime CreateDateOnUtc { get; private set; }
+    public DateTime LastUpdateDateOnUtc { get; private set; }
+    public IReadOnlyList<MenuItem> Items=> _items;
 
-    public HostId HostId { get; }
-
-    public IReadOnlyList<MenuSection> Sections=> _section;
-    public IReadOnlyList<DinnerId> DinnerIds=> _dinnerIds;
-    public IReadOnlyList<MenuReviewId> MenuReviewIds=> _menuReviewIds;
-
-    private Menu(MenuId id,string name,string description,HostId hostId,DateTime createdDateTime,DateTime lastUpdatedDateTime) : base(id)
+    private Menu(Guid id,string name,string description) : base(id)
     {
         Name = name;
         Description = description;
-        HostId = hostId;
-        CreateDateOnUtc = createdDateTime;
-        LastUpdateDateOnUtc = lastUpdatedDateTime;
-        
+        CreateDateOnUtc = DateTime.UtcNow;
+        LastUpdateDateOnUtc = DateTime.UtcNow;
     }
 
-    public static Menu Create(string name, string description, HostId hostId)
+    public static Menu Create(string name, string description)
     {
         return new Menu(
-            MenuId.Create(),
+            Guid.NewGuid(),
             name,
-            description,
-            hostId,
-            DateTime.UtcNow,
-            DateTime.UtcNow);
+            description);
     }
+
+    public void AddMenuItem(MenuItem item)
+    {
+        _items.Add(item);
+    }
+    public void RemoveMenuItem(MenuItem item)
+    {
+        _items.Remove(item);
+    }
+
+    public decimal CalculateTotalPrice()
+    {
+        decimal totalPrice = 0;
+        foreach (var menuItem in _items)
+        {
+            totalPrice += menuItem.Price.Value;
+        }
+        return totalPrice;
+    }
+
 }
 

@@ -1,21 +1,25 @@
-﻿using BigDinner.Domain.Models.Menu.ValueObjects;
+﻿using BigDinner.Domain.Models.Menus.Aggregates;
+using BigDinner.Domain.ValueObjects;
 
-namespace BigDinner.Domain.Models.Menu.Entities;
+namespace BigDinner.Domain.Models.Menus.Entities;
 
-public sealed class MenuItem : Entity<MenueItemId>
+public sealed class MenuItem : Entity<Guid>
 {
-    public string Name { get; }
-    public string Description { get; }
+    public string Name { get; private set; }
+    public string Description { get; private set; }
+    public Price Price  { get; private set; }
+    public Menu Menu { get; private set; }
 
-    private MenuItem(MenueItemId id,string name,string description) : base(id)
+    private MenuItem(Guid id,string name,string description,Price price) : base(id)
     {
         Name = name;
         Description = description;
+        Price = price;
     }
 
-    public static MenuItem Create(string name,string description)
+    public static MenuItem Create(string name,string description,Price price)
     {
-        return new MenuItem(MenueItemId.Create(), name,description);
+        return new MenuItem(Guid.NewGuid(), name,description,price);
     }
 }
 

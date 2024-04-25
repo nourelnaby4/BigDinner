@@ -1,4 +1,5 @@
 ﻿using BigDinner.Domain.Identities;
+using BigDinner.Domain.Models.Menus.Aggregates;
 using System.Reflection;
 
 namespace BigDinner.Persistence.Context;
@@ -9,7 +10,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
       : base(options)
     {
     }
-
+    public DbSet<Menu> Menus { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
