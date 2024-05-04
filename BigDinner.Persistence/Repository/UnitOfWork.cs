@@ -4,9 +4,9 @@ namespace BigDinner.Persistence.Repository;
 
 public class UnitOfWork<T> : IUnitOfWork<T> where T : class
 {
-    private readonly ApplicationDbContext _context;
+    private readonly DinnerDbContext _context;
     private IBaseRepo<T> _entity;
-    public UnitOfWork(ApplicationDbContext context)
+    public UnitOfWork(DinnerDbContext context)
     {
         _context = context;
     }

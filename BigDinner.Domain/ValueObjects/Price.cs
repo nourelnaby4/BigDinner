@@ -1,14 +1,23 @@
-﻿namespace BigDinner.Domain.ValueObjects;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
-public class Price
+namespace BigDinner.Domain.ValueObjects;
+
+[ComplexType]
+public class Price : ValueObject
 {
-    public decimal Value { get; }
-    public string Currency { get; }
+    public decimal Value { get; private set; }
+    public string Currency { get; private set; }
 
     public Price(decimal value, string currency)
     {
         Value = value;
         Currency = currency;
+    }
+
+    public override IEnumerable<object> GetEqualityComponents()
+    {
+        yield return Value;
+        yield return Currency;
     }
 }
 

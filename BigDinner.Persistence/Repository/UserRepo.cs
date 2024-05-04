@@ -2,8 +2,8 @@
 
 public class UserRepo : BaseRepo<ApplicationUser>, IUserRepo
 {
-    private readonly ApplicationDbContext _context;
-    public UserRepo(ApplicationDbContext context) : base(context)
+    private readonly DinnerDbContext _context;
+    public UserRepo(DinnerDbContext context) : base(context)
     {
         _context = context;
     }

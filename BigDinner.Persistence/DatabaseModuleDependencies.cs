@@ -10,7 +10,7 @@ namespace BigDinner.Persistence
         public static IServiceCollection AddDatabaseDependencies(this IServiceCollection services, IConfiguration configuration)
         {
             var connectioString = configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<ApplicationDbContext>(option =>
+            services.AddDbContext<DinnerDbContext>(option =>
             option.UseSqlServer(connectioString));
 
             services.AddControllers().AddJsonOptions(x =>
@@ -38,7 +38,7 @@ namespace BigDinner.Persistence
                 option.SignIn.RequireConfirmedEmail = false;
 
             })
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddEntityFrameworkStores<DinnerDbContext>()
                 .AddDefaultTokenProviders();
             return services;
         }

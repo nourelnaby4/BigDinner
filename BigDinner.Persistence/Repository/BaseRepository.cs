@@ -4,7 +4,7 @@ public class BaseRepo<T> : IBaseRepo<T> where T : class
 {
     #region fileds
 
-    protected readonly ApplicationDbContext _context;
+    protected readonly DinnerDbContext _context;
     
 
     #endregion
@@ -12,7 +12,7 @@ public class BaseRepo<T> : IBaseRepo<T> where T : class
 
 
     #region Constructor(s)
-    public BaseRepo(ApplicationDbContext context)
+    public BaseRepo(DinnerDbContext context)
     {
         _context = context;
     }

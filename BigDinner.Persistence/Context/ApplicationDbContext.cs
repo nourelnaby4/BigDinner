@@ -1,16 +1,22 @@
 ﻿using BigDinner.Domain.Identities;
-using BigDinner.Domain.Models.Menus.Aggregates;
+using BigDinner.Domain.Models.Menus;
+using BigDinner.Persistence.Configurations;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace BigDinner.Persistence.Context;
 
-public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
+public class DinnerDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+    public DinnerDbContext(DbContextOptions<DinnerDbContext> options)
       : base(options)
     {
     }
+
     public DbSet<Menu> Menus { get; set; }
+
+    public DbSet<MenuItem> MenuItems { get; set; }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -25,6 +31,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
 
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());// apply Entities Configurations
     }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
