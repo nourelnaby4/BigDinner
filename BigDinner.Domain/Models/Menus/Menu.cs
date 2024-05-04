@@ -1,4 +1,6 @@
-﻿namespace BigDinner.Domain.Models.Menus;
+﻿using BigDinner.Domain.Models.Menus.Events;
+
+namespace BigDinner.Domain.Models.Menus;
 
 public sealed class Menu : AggregateRoot<Guid>
 {
@@ -29,7 +31,11 @@ public sealed class Menu : AggregateRoot<Guid>
 
     public static Menu Create(string name, string description)
     {
-        return new Menu(Guid.NewGuid(), name, description);
+        var menu= new Menu(Guid.NewGuid(), name, description);
+
+        menu.RaiseDomainEvent(new MenuCreatedDomainEvent(menu));
+
+        return menu;
     }
 
     public void AddMenuItem(MenuItem item)

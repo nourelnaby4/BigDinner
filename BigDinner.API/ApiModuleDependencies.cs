@@ -16,8 +16,6 @@ public static class ApiModuleDependencies
         {
             options.Filters.Add<CustomExceptionFilterAttribute>();
         });
-        Log.Logger=new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
-        services.AddSerilog();
         return services;
     }
 }

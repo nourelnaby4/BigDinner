@@ -19,4 +19,8 @@
     <ProjectReference Include="..\BigDinner.Application\BigDinner.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Interceptors\" />
+  </ItemGroup>
+
 </Project>

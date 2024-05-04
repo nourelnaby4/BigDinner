@@ -33,8 +33,11 @@ public sealed class CreateMenuCommandHandler : ResponseHandler,
     public async Task<Response<string>> Handle(CreateMenuCommand request, CancellationToken cancellationToken)
     {
         var menueModel = Menu.Create( request.Name, request.Description);
+
         _menuRepository.Add(menueModel);
+
         await _unitOfWork.CompleteAsync();
+
         return Created(string.Empty);
     }
 }
