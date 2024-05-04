@@ -1,5 +1,4 @@
 ﻿using BigDinner.Domain.Models.Menus;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace BigDinner.Persistence.Configurations.Menus;
 
 public class MenuCategoryConfiguration : IEntityTypeConfiguration<MenuCategory>

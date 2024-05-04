@@ -6,7 +6,7 @@ public sealed class MenuCategory : AggregateRoot<Guid>
     {
     }
 
-    private readonly HashSet<Menu> _menus = new();
+    private readonly List<Menu> _menus = new();
 
     public string Name { get; private set; }
 

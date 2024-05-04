@@ -2,26 +2,12 @@
 
 public class BaseRepo<T> : IBaseRepo<T> where T : class
 {
-    #region fileds
+    protected readonly ApplicationDbContext _context;
 
-    protected readonly DinnerDbContext _context;
-    
-
-    #endregion
-
-
-
-    #region Constructor(s)
-    public BaseRepo(DinnerDbContext context)
+    public BaseRepo(ApplicationDbContext context)
     {
         _context = context;
     }
-
-    #endregion
-
-
-    #region Actions
-
 
     public virtual async Task<T> GetByIdAsync(string id)
     {
@@ -51,18 +37,7 @@ public class BaseRepo<T> : IBaseRepo<T> where T : class
     {
         _context.Set<T>().Remove(entity);
     }
-
-
-    public IQueryable<T> GetTableNoTracking()
-    {
-        return _context.Set<T>().AsNoTracking().AsQueryable();
-    }
-
-    public IQueryable<T> GetTableAsTracking()
-    {
-        return _context.Set<T>().AsQueryable();
-
-    }
+   
     public virtual async Task<ICollection<T>> AddRangeAsync(ICollection<T> entities)
     {
         await _context.Set<T>().AddRangeAsync(entities);
@@ -86,8 +61,5 @@ public class BaseRepo<T> : IBaseRepo<T> where T : class
     {
         return await _context.SaveChangesAsync();
     }
-
-
-    #endregion
 }
 

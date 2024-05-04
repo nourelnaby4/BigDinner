@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BigDinner.Persistence.Migrations
 {
-    [DbContext(typeof(DinnerDbContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     partial class DinnerDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

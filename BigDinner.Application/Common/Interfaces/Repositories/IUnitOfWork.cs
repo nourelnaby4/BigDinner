@@ -2,10 +2,10 @@
 
 namespace BigDinner.Persistence.Repository;
 
-public interface IUnitOfWork<T> : IDisposable where T : class
+public interface IUnitOfWork : IDisposable
 {
-    IBaseRepo<T> Entity { get; }
     IDbContextTransaction BeginTransaction();
+
     Task<int> CompleteAsync();
 }
 

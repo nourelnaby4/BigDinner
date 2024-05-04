@@ -1,5 +1,4 @@
-﻿using BigDinner.API.Behavior;
-using BigDinner.API.Filters;
+﻿using BigDinner.API.Filters;
 using FluentValidation;
 using Serilog;
 using System.Reflection;
@@ -17,9 +16,6 @@ public static class ApiModuleDependencies
         {
             options.Filters.Add<CustomExceptionFilterAttribute>();
         });
-        services.AddMediatR(config => config.RegisterServicesFromAssemblies(assembly));
-        services.AddValidatorsFromAssembly(assembly);
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));   //validation behavior 
         Log.Logger=new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
         services.AddSerilog();
         return services;

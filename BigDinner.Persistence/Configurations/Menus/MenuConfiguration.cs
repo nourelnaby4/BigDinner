@@ -1,6 +1,5 @@
 ﻿using BigDinner.Domain.Models.Menus;
-using BigDinner.Domain.ValueObjects;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 namespace BigDinner.Persistence.Configurations.Menus;
 
 public class MenuConfiguration : IEntityTypeConfiguration<Menu>

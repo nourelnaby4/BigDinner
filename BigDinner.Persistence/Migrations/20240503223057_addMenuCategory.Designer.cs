@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BigDinner.Persistence.Migrations
 {
-    [DbContext(typeof(DinnerDbContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20240503223057_addMenuCategory")]
     partial class addMenuCategory
     {

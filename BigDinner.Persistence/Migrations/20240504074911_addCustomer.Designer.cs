@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BigDinner.Persistence.Migrations
 {
-    [DbContext(typeof(DinnerDbContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20240504074911_addCustomer")]
     partial class addCustomer
     {

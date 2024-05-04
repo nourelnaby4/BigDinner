@@ -6,9 +6,9 @@ using System.Reflection;
 
 namespace BigDinner.Persistence.Context;
 
-public class DinnerDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
 {
-    public DinnerDbContext(DbContextOptions<DinnerDbContext> options)
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
       : base(options)
     {
     }

@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BigDinner.API", "BigDinner.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BigDinner.Persistence", "BigDinner.Persistence\BigDinner.Persistence.csproj", "{353F281F-95CB-4194-BC1C-31E5ACDB4D70}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{93DEFAB2-6C03-44F7-80C2-AF3DDF820578}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{93DEFAB2-6C03-44F7-80C2-AF3DDF820578}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{B664F651-FE2A-4FDC-B70C-2D657C961FA4}"
 EndProject

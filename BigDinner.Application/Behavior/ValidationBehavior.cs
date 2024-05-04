@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace BigDinner.API.Behavior;
+namespace BigDinner.Application.Behavior;
 
 public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
      where TRequest : IRequest<TResponse>
