@@ -3,7 +3,7 @@ using BigDinner.Persistence.Repository;
 
 namespace BigDinner.Application.Features.Menus.Command;
 
-public record CreateMenuCategoryCommand : IRequest<Response<string>>
+public record CreateMenuCommand : IRequest<Response<string>>
 {
     public string Name { get; set; }
 
@@ -11,8 +11,8 @@ public record CreateMenuCategoryCommand : IRequest<Response<string>>
 }
 
 
-public sealed class CreateMenuCategoryCommandHandler : ResponseHandler,
-    IRequestHandler<CreateMenuCategoryCommand, Response<string>>
+public sealed class CreateMenuCommandHandler : ResponseHandler,
+    IRequestHandler<CreateMenuCommand, Response<string>>
 {
     private readonly IMapper _mapper;
 
@@ -20,7 +20,7 @@ public sealed class CreateMenuCategoryCommandHandler : ResponseHandler,
 
     private readonly IUnitOfWork _unitOfWork;
 
-    public CreateMenuCategoryCommandHandler(
+    public CreateMenuCommandHandler(
         IMapper mapper,
         IMenuRepository menuRepository,
         IUnitOfWork unitOfWork)
@@ -30,21 +30,11 @@ public sealed class CreateMenuCategoryCommandHandler : ResponseHandler,
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Response<string>> Handle(CreateMenuCategoryCommand request, CancellationToken cancellationToken)
+    public async Task<Response<string>> Handle(CreateMenuCommand request, CancellationToken cancellationToken)
     {
-        var menueModel = _mapper.Map<MenuCategory>(request);
+        var menueModel = Menu.Create( request.Name, request.Description);
         _menuRepository.Add(menueModel);
         await _unitOfWork.CompleteAsync();
         return Created(string.Empty);
-    }
-}
-
-
-public class CreateMenuCategoryCommandProfile : Profile
-{
-    public CreateMenuCategoryCommandProfile()
-    {
-        CreateMap<CreateMenuCategoryCommand, MenuCategory>()
-            .ConstructUsing(cmd => MenuCategory.Create(Guid.NewGuid(), cmd.Name, cmd.Description));
     }
 }

@@ -16,7 +16,7 @@ public sealed class Menu : AggregateRoot<Guid>
 
     public IReadOnlyList<MenuItem> Items => _items.ToList();
 
-    public Guid MenuCategoryId { get; private set; }
+    public MenuItem MenuItem { get; private set; }
 
      
     private Menu(Guid id, string name, string description) : base(id)

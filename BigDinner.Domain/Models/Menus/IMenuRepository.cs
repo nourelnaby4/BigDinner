@@ -2,7 +2,7 @@
 
 public interface IMenuRepository
 {
-    void Add(MenuCategory menu);
-    IEnumerable<MenuCategory> GetAll();
-    MenuCategory GetById();
+    void Add(Menu menu);
+    Task<IEnumerable<Menu>> GetAll();
+    Task<Menu?> GetById(Guid MenuId);
 }

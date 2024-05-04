@@ -18,8 +18,4 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Menus\Query\" />
-  </ItemGroup>
-
 </Project>

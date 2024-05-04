@@ -5,6 +5,7 @@ using BigDinner.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -12,9 +13,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BigDinner.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class DinnerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240504150445_updateCategoryMenuName")]
+    partial class updateCategoryMenuName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -155,6 +158,9 @@ namespace BigDinner.Persistence.Migrations
                     b.Property<DateTime>("LastUpdateDateOnUtc")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("MenuCategoryId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(150)
@@ -162,7 +168,30 @@ namespace BigDinner.Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MenuCategoryId");
+
                     b.ToTable("Menus");
+                });
+
+            modelBuilder.Entity("BigDinner.Domain.Models.Menus.MenuCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MenuCategories");
                 });
 
             modelBuilder.Entity("BigDinner.Domain.Models.Menus.MenuItem", b =>
@@ -343,6 +372,15 @@ namespace BigDinner.Persistence.Migrations
                     b.ToTable("UserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("BigDinner.Domain.Models.Menus.Menu", b =>
+                {
+                    b.HasOne("BigDinner.Domain.Models.Menus.MenuCategory", null)
+                        .WithMany("Menus")
+                        .HasForeignKey("MenuCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("BigDinner.Domain.Models.Menus.MenuItem", b =>
                 {
                     b.HasOne("BigDinner.Domain.Models.Menus.Menu", null)
@@ -413,6 +451,11 @@ namespace BigDinner.Persistence.Migrations
 
                     b.Navigation("MenuItem")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("BigDinner.Domain.Models.Menus.MenuCategory", b =>
+                {
+                    b.Navigation("Menus");
                 });
 #pragma warning restore 612, 618
         }
