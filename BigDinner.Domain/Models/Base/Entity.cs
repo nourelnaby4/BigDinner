@@ -5,11 +5,7 @@ namespace BigDinner.Domain.Models.BaseModels.Entity;
 public abstract class Entity<TId> : IEquatable<Entity<TId>>
     where TId : notnull
 {
-    private readonly List<IDomainEvent> _domainEvents = new();
-
     public TId Id { get; protected set; }
-
-    public IReadOnlyList<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
 
     protected Entity(TId id)
     {
@@ -41,9 +37,6 @@ public abstract class Entity<TId> : IEquatable<Entity<TId>>
         return Id.GetHashCode();
     }
 
-    public void addDomainEvent(IDomainEvent domainEvent)
-    {
-        _domainEvents.Add(domainEvent);
-    }
+   
 }
 

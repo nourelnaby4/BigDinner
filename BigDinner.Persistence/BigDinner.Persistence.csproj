@@ -13,14 +13,12 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Quartz" Version="3.8.1" />
+    <PackageReference Include="Quartz.Extensions.Hosting" Version="3.8.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BigDinner.Application\BigDinner.Application.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Interceptors\" />
   </ItemGroup>
 
 </Project>

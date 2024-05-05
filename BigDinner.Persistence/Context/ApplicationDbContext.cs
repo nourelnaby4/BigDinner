@@ -1,6 +1,7 @@
 ﻿using BigDinner.Domain.Identities;
 using BigDinner.Domain.Models.Menus;
 using BigDinner.Persistence.Configurations;
+using BigDinner.Persistence.OutboxMessages;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -16,6 +17,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
     public DbSet<Menu> Menus { get; set; }
 
     public DbSet<MenuItem> MenuItems { get; set; }
+
+    public DbSet<OutboxMessage> OutboxMessage { get; set; } //use same name to datase without add 's'
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

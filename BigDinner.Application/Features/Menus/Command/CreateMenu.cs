@@ -40,4 +40,6 @@ public sealed class CreateMenuCommandHandler : ResponseHandler,
 
         return Created(string.Empty);
     }
+
 }
+

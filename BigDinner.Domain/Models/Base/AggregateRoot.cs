@@ -1,10 +1,25 @@
-﻿namespace BigDinner.Domain.Models.BaseModels;
+﻿using BigDinner.Domain.Models.Base;
 
-public class AggregateRoot<TId> : Entity<TId>
+namespace BigDinner.Domain.Models.BaseModels;
+
+public class AggregateRoot<TId> : Entity<TId> , IHasDomainEvents
     where TId : notnull
 {
+    private readonly List<IDomainEvent> _domainEvents = new();
+
     protected AggregateRoot(TId id) : base(id)
     {
     }
+
+    public IReadOnlyList<IDomainEvent> GetDomainEvents() => _domainEvents.ToList();
+
+    public void ClearDomainEvents() => _domainEvents.Clear();
+
+    public void RaiseDomainEvent(IDomainEvent domainEvent)
+    {
+        _domainEvents.Add(domainEvent);
+    }
+
+  
 }
 

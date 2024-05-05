@@ -4,17 +4,14 @@ using Serilog;
 namespace BigDinner.Application.Features.Menus.Event;
 
 public class CreateMenuDomainEventHandler
-    : INotificationHandler<CreateMenuDomainEvent>
+    : INotificationHandler<MenuCreateDomainEvent>
 {
-    private readonly ILogger _logger;
 
-    public CreateMenuDomainEventHandler(ILogger logger)
-        => _logger = logger;
 
-    public Task Handle(CreateMenuDomainEvent notification, CancellationToken cancellationToken)
+    public Task Handle(MenuCreateDomainEvent notification, CancellationToken cancellationToken)
     {
-        _logger.Information("New menu created. MenuId: {MenuId}, Name: {MenuName}, Description: {MenuDescription}",
-                notification.Menu.Id, notification.Menu.Name, notification.Menu.Description);
+        Log.Information("New menu created. MenuId: {MenuId}, Name: {MenuName}",
+                notification.Menu.id, notification.Menu.name);
 
         return Task.CompletedTask;
     }

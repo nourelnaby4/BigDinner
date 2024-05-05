@@ -16,6 +16,7 @@ public static class ApiModuleDependencies
         {
             options.Filters.Add<CustomExceptionFilterAttribute>();
         });
+        services.AddMediatR(config => config.RegisterServicesFromAssemblies(assembly));
         return services;
     }
 }

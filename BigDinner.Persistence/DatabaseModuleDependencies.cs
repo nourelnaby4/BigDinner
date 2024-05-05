@@ -1,4 +1,5 @@
 ﻿using BigDinner.Persistence.Context;
+using BigDinner.Persistence.Interceptors;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json.Serialization;
@@ -10,8 +11,17 @@ public static class DatabaseModuleDependencies
     public static IServiceCollection AddDatabaseDependencies(this IServiceCollection services, IConfiguration configuration)
     {
         var connectioString = configuration.GetConnectionString("DefaultConnection");
-        services.AddDbContext<ApplicationDbContext>(option =>
-        option.UseSqlServer(connectioString));
+
+        services.AddSingleton<ConvertDomainEventToOutboxMessagesInterceptor>();
+
+        services.AddDbContext<ApplicationDbContext>((serviceProvider, optionBuilder) =>
+        {
+            var interceptor = serviceProvider.GetService<ConvertDomainEventToOutboxMessagesInterceptor>();
+
+            optionBuilder.UseSqlServer(connectioString)
+            .AddInterceptors(interceptor);
+
+        });
 
         services.AddControllers().AddJsonOptions(x =>
             x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);

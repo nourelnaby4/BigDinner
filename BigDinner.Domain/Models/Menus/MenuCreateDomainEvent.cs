@@ -2,5 +2,5 @@
 
 namespace BigDinner.Domain.Models.Menus;
 
-public record MenuCreated(Menu Menu) : IDomainEvent;
+public record MenuCreateDomainEvent(MenuCreateEventMessage Menu) : IDomainEvent;
 
