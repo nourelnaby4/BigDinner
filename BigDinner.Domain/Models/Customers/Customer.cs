@@ -1,6 +1,6 @@
 ﻿namespace BigDinner.Domain.Models.Customers;
 
-public class Customer : AggregateRoot<Guid>
+public class Customer : Entity<Guid>
 {
     private const int MaxPhoneLength = 15;
 
