@@ -1,4 +1,4 @@
-﻿using BigDinner.Application.Common.Interfaces.Date;
+﻿using BigDinner.Application.Common.Abstractions.Date;
 using System;
 using System.Collections.Generic;
 using System.Linq;

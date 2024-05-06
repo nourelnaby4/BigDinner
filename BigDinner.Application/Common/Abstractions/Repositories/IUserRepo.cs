@@ -1,4 +1,4 @@
-﻿namespace BigDinner.Application.Common.Interfaces.Repositories;
+﻿namespace BigDinner.Application.Common.Abstractions.Repositories;
 
 public interface IUserRepo : IBaseRepo<ApplicationUser>
 {

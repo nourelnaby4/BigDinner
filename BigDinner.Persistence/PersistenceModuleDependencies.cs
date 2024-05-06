@@ -1,4 +1,6 @@
-﻿using BigDinner.Domain.Models.Menus;
+﻿using BigDinner.Application.Common.Abstractions.Repository;
+using BigDinner.Domain.Models.Customers;
+using BigDinner.Domain.Models.Menus;
 using BigDinner.Persistence.BackgroundJobs;
 using BigDinner.Persistence.Interceptors;
 using Microsoft.Extensions.Configuration;
@@ -16,6 +18,8 @@ public static class PersistenceModuleDependencies
         services.AddScoped<IUserRepo, UserRepo>();
 
         services.AddScoped<IMenuRepository, MenuRepository>();
+
+        services.AddScoped<ICustomerRepository, CustomerRepository>();
 
         services.AddQuartz(configure =>
         {

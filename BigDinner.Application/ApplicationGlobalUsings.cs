@@ -8,6 +8,6 @@ global using AutoMapper;
 
 global using BigDinner.Domain.Identities;
 global using BigDinner.Application.Common.Models;
-global using BigDinner.Application.Common.Interfaces.Repositories;
+global using BigDinner.Application.Common.Abstractions.Repositories;
 
 global using Microsoft.AspNetCore.Identity;

@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Features\Customer\**" />
+    <EmbeddedResource Remove="Features\Customer\**" />
+    <None Remove="Features\Customer\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BigDinner.Domain\BigDinner.Domain.csproj" />
   </ItemGroup>
 

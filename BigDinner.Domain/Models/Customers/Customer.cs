@@ -25,24 +25,37 @@ public class Customer : AggregateRoot<Guid>
     private Customer(Guid id, string name, Email email, string phone, Address address) : base(id)
     {
         Name = name;
-        Email = email;
+        Email =email;
         Phone = phone;
         Address = address;
     }
 
-    public static Customer Create(Guid id, string name, Email email, string phone, Address address) 
+    public static Customer Create(string name, Email email, string phone, Address address) 
     {
         if (!IsValidPhone(phone))
         {
             throw new ArgumentException("Invalid phone number");
         }
 
-        return new Customer(id, name, email, phone, address);
+        return new Customer(Guid.NewGuid(), name, email, phone, address);
+    }
+
+    public void UpdateInformation(string name, Email email, string phone, Address address)
+    {
+        if (!IsValidPhone(phone))
+        {
+            throw new ArgumentException("Invalid phone number");
+        }
+
+        Name = name;
+        Email = email;
+        Phone = phone;
+        Address = address;
     }
 
     private static bool IsValidPhone(string phone)
     {
-        return !string.IsNullOrWhiteSpace(phone) && phone.Length > MaxPhoneLength;
+        return !string.IsNullOrWhiteSpace(phone) && phone.Length < MaxPhoneLength;
     }
 
 }

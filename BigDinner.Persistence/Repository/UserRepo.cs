@@ -1,4 +1,4 @@
-﻿namespace BigDinner.Persistence.Repository;
+﻿namespace BigDinner.Application.Common.Abstractions.Repository;
 
 public class UserRepo : BaseRepo<ApplicationUser>, IUserRepo
 {

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Storage;
+﻿using BigDinner.Application.Common.Abstractions.Repository;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace BigDinner.Persistence.Repository;
 

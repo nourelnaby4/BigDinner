@@ -12,4 +12,4 @@ global using Microsoft.EntityFrameworkCore.Metadata.Builders;
 global using BigDinner.Domain.Identities;
 global using BigDinner.Persistence.Context;
 global using BigDinner.Persistence.Repository;
-global using BigDinner.Application.Common.Interfaces.Repositories;
+global using BigDinner.Application.Common.Abstractions.Repositories;

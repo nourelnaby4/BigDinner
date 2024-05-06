@@ -13,9 +13,9 @@ public class Address : ValueObject
 
     public Address(string city, string street, int postalCode)
     {
-        if (postalCode.ToString().Length > MaxPostCodeLength)
+        if (postalCode.ToString().Length != MaxPostCodeLength)
         {
-            throw new ArgumentException("Post Code is In valid");
+            throw new ArgumentException("Post Code is In valid: must be five digits");
         }
 
         City = city;

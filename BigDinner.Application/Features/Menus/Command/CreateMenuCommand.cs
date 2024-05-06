@@ -1,5 +1,5 @@
 ﻿using BigDinner.Domain.Models.Menus;
-using BigDinner.Persistence.Repository;
+using BigDinner.Application.Common.Abstractions.Repository;
 
 namespace BigDinner.Application.Features.Menus.Command;
 

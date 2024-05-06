@@ -11,7 +11,7 @@ public class Email : ValueObject
     {
         if (!IsValidEmail(value))
         {
-            throw new ArgumentException("Invalid email address");
+            throw new ArgumentException("Invalid email");
         }
 
         Value = value;
@@ -19,7 +19,7 @@ public class Email : ValueObject
 
     private bool IsValidEmail(string email)
     {
-        return !string.IsNullOrWhiteSpace(email) && email.Contains("@") && email.Length > MaxEmailLength;
+        return !string.IsNullOrWhiteSpace(email) && email.Contains("@") && email.Length < MaxEmailLength;
     }
 
     public override IEnumerable<object> GetEqualityComponents()

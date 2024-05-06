@@ -2,7 +2,7 @@
 using BigDinner.Domain.Identities;
 
 
-namespace BigDinner.Application.Common.Interfaces.Authentication
+namespace BigDinner.Application.Common.Abstractions.Authentication
 {
     public interface IJwtTokenGenerator
     {

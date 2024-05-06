@@ -1,4 +1,4 @@
-﻿using BigDinner.Application.Common.Interfaces.Authentication;
+﻿using BigDinner.Application.Common.Abstractions.Authentication;
 using BigDinner.Application.Common.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;

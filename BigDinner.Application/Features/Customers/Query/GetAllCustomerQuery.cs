@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BigDinner.Application.Common.Interfaces.Date
+namespace BigDinner.Application.Features.Customers.Query
 {
-    public interface IDateTimeProvider
+    internal class GetAllCustomerQuery
     {
-        DateTime UtcNow { get; }
     }
 }

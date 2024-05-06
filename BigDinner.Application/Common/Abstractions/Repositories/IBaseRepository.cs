@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 
-namespace BigDinner.Application.Common.Interfaces.Repositories;
+namespace BigDinner.Application.Common.Abstractions.Repositories;
 
 public interface IBaseRepo<T> where T : class
 {
