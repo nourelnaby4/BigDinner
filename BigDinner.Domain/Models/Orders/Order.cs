@@ -4,15 +4,13 @@ namespace BigDinner.Domain.Models.Orders;
 
 public class Order : AggregateRoot<Guid>
 {
-    private List<OrderItem> _items = new();
+    private HashSet<OrderItem> _items = new();
 
-    public string OrderNumber { get; private set; }
+    public Guid OrderNumber { get; private set; }
 
     public DateTime OrderDateOnUtc { get; private set; }
 
     public Guid CustomerId { get; private set; }
-
-    public Customer Customer { get; private set; }
 
     public OrderStatus OrderStatus { get; private set; }
 
@@ -24,7 +22,7 @@ public class Order : AggregateRoot<Guid>
     {
     }
 
-    private Order(Guid id, string orderNumer, Guid customerId) : base(id)
+    private Order(Guid id, Guid orderNumer, Guid customerId) : base(id)
     {
         OrderNumber = orderNumer;
         CustomerId = customerId;
@@ -37,9 +35,9 @@ public class Order : AggregateRoot<Guid>
         _items.Add(item);
     }
 
-    public static Order Create(string orderNumer, Guid customerId)
+    public static Order Create( Guid customerId)
     {
-        return new Order(Guid.NewGuid(), orderNumer, customerId);
+        return new Order(Guid.NewGuid(), Guid.NewGuid(), customerId);
     }
 
     public Price CalculateTotalPrice()

@@ -20,6 +20,6 @@ public class AggregateRoot<TId> : Entity<TId> , IHasDomainEvents
         _domainEvents.Add(domainEvent);
     }
 
-  
+ 
 }
 

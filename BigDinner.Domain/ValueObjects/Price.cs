@@ -8,7 +8,7 @@ public class Price : ValueObject
     public decimal Value { get; private set; }
     public string Currency { get; private set; }
 
-    public Price(decimal value, string? currency="EGY")
+    public Price(decimal value, string? currency= "EGP")
     {
         Value = value;
         Currency = currency;

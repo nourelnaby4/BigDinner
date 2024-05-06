@@ -19,6 +19,15 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             .HasMaxLength(150);
 
         builder.ComplexProperty(c => c.Address);
+
+
+        builder.HasMany(m => m.Orders)
+            .WithOne()
+            .HasForeignKey(p => p.CustomerId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
+
+
     }
 }
 

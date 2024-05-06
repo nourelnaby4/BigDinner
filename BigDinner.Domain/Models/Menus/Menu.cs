@@ -46,14 +46,16 @@ public sealed class Menu : AggregateRoot<Guid>
         _items.Remove(item);
     }
 
-    public decimal CalculateTotalPrice()
+    public Price CalculateTotalPrice()
     {
         decimal totalPrice = 0;
+
         foreach (var menuItem in _items)
         {
             totalPrice += menuItem.Price.Value;
         }
-        return totalPrice;
+
+        return new Price(totalPrice);
     }
 }
 
