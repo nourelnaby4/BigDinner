@@ -16,12 +16,12 @@ public class CustomerRepository : ICustomerRepository
         _context.Add(customer);
     }
 
-    public async Task<IEnumerable<Customer>> GetAll()
+    public async Task<IEnumerable<Customer>> GetAllAsync()
     {
        return await _context.Customers.ToListAsync();
     }
 
-    public async Task<Customer?> GetById(Guid customerId)
+    public async Task<Customer?> GetByIdAsync(Guid customerId)
     {
         return await _context.Customers.FindAsync(customerId);
     }

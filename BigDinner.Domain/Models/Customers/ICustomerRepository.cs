@@ -3,6 +3,8 @@
 public interface ICustomerRepository
 {
     void Add(Customer customer);
-    Task<IEnumerable<Customer>> GetAll();
-    Task<Customer?> GetById(Guid customerId);
+
+    Task<IEnumerable<Customer>> GetAllAsync();
+
+    Task<Customer?> GetByIdAsync(Guid customerId);
 }

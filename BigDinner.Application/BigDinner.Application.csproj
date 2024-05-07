@@ -7,8 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Features\Customers\NewFolder\**" />
     <Compile Remove="Features\Customer\**" />
+    <EmbeddedResource Remove="Features\Customers\NewFolder\**" />
     <EmbeddedResource Remove="Features\Customer\**" />
+    <None Remove="Features\Customers\NewFolder\**" />
     <None Remove="Features\Customer\**" />
   </ItemGroup>
 
