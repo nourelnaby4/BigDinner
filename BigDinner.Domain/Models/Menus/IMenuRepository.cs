@@ -3,6 +3,8 @@
 public interface IMenuRepository
 {
     void Add(Menu menu);
-    Task<IEnumerable<Menu>> GetAll();
+
+    Task<List<Menu>> GetAll();
+
     Task<Menu?> GetById(Guid MenuId);
 }

@@ -14,7 +14,7 @@ public class MenuRepository : IMenuRepository
         _context.Add(menu);
     }
 
-    public async Task<IEnumerable<Menu>> GetAll()
+    public async Task<List<Menu>> GetAll()
     {
         return await _context.Menus
             .Include(x => x.MenuItem)
@@ -28,4 +28,6 @@ public class MenuRepository : IMenuRepository
            .Include(x => x.MenuItem)
            .SingleOrDefaultAsync();
     }
+
+
 }
