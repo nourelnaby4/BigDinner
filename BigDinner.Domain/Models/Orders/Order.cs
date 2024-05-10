@@ -56,4 +56,9 @@ public class Order : AggregateRoot<Guid>
 
         return new Price(totalPrice);
     }
+
+    public void RaiseCreationalOrderEvent()
+    {
+        this.RaiseDomainEvent(new OrderCreateDomainEvent(new OrderCreateEventMessage(CustomerId)));
+    }
 }

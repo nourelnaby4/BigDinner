@@ -1,7 +1,5 @@
-﻿using BigDinner.Application.Common.Abstractions.Repository;
-using BigDinner.Domain.Models.Menus;
+﻿using BigDinner.Domain.Models.Menus;
 using BigDinner.Domain.Models.Orders;
-using BigDinner.Domain.ValueObjects;
 
 namespace BigDinner.Application.Features.Orders.Command;
 
@@ -54,6 +52,8 @@ public sealed class CreateOrderCommandHandler : ResponseHandler,
         await AddOrderItemsToOrder(request, order);
 
         order.ChangeOrderStatus(OrderStatus.Confirmed);
+
+        order.RaiseCreationalOrderEvent();
 
         _orderRepository.Add(order);
 

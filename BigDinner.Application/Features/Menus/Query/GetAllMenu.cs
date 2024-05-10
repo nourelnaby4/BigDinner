@@ -8,7 +8,18 @@ public sealed record GetAllMenuQuery()
     : IRequest<Response<IEnumerable<GetAllMenuQueryResponse>>>;
 
 
-public sealed record GetAllMenuQueryResponse(Guid Id,string Name ,string Description);
+public record MenuItemResponseDto
+{
+    public string Id { get; set; }
+
+    public string Name { get; set; }
+
+    public string Description { get; set; }
+
+    public Price Price { get; set; }
+}
+
+public sealed record GetAllMenuQueryResponse(Guid Id,string Name ,string Description,List<MenuItemResponseDto> Items);
 
 
 public sealed class GetAllMenuQueryHandler : ResponseHandler,
@@ -45,6 +56,9 @@ public class GetAllMenuQueryProfile : Profile
 {
     public GetAllMenuQueryProfile()
     {
-        CreateMap<Menu, GetAllMenuQueryResponse>();
+        CreateMap<Menu, GetAllMenuQueryResponse>()
+            .ForMember(desc=>desc.Items,option=>option.MapFrom(src=>src.Items));
+
+        CreateMap<MenuItem, MenuItemResponseDto>();
     }
 }

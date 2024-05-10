@@ -17,7 +17,7 @@ public class MenuRepository : IMenuRepository
     public async Task<List<Menu>> GetAll()
     {
         return await _context.Menus
-            .Include(x => x.MenuItem)
+            .Include(x => x.Items)
             .ToListAsync();
     }
 
@@ -25,7 +25,7 @@ public class MenuRepository : IMenuRepository
     {
         return await _context.Menus
             .Where(x => x.Id == MenuId)
-           .Include(x => x.MenuItem)
+           .Include(x => x.Items)
            .SingleOrDefaultAsync();
     }
 

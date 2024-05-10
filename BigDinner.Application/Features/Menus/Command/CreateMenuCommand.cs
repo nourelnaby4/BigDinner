@@ -1,6 +1,4 @@
 ﻿using BigDinner.Domain.Models.Menus;
-using BigDinner.Application.Common.Abstractions.Repository;
-using BigDinner.Domain.ValueObjects;
 using BigDinner.Application.Features.Orders.Command;
 using BigDinner.Domain.Models.Orders;
 
@@ -17,12 +15,13 @@ public record CreateMenuCommand : IRequest<Response<string>>
 
 public record MenuItemDto
 {
-    public string Name { get; private set; }
+    public string Name { get;  set; }
 
-    public string Description { get; private set; }
+    public string Description { get;  set; }
 
-    public Price Price { get; private set; }
+    public Price Price { get;  set; }
 }
+
 
 
 public sealed class CreateMenuCommandHandler : ResponseHandler,
@@ -59,8 +58,5 @@ public sealed class CreateMenuCommandHandler : ResponseHandler,
 
         return Created(string.Empty);
     }
-
-    
-
 }
 
