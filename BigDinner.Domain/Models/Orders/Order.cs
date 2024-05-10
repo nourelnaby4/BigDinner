@@ -40,7 +40,7 @@ public class Order : AggregateRoot<Guid>
         _items.Add(item);
     }
 
-    public void ChangeStatusOfOrder(OrderStatus status)
+    public void ChangeOrderStatus(OrderStatus status)
     {
         OrderStatus = status;
     }
