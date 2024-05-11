@@ -1,9 +1,10 @@
-﻿namespace BigDinner.Domain.Models.Customers;
+﻿namespace BigDinner.Domain.ValueObjects;
 
-[ComplexType]
 public class Address : ValueObject
 {
     private int MaxPostCodeLength = 5;
+
+    public string Country { get; private set; }
 
     public string City { get; private set; }
 
@@ -11,7 +12,7 @@ public class Address : ValueObject
 
     public int PostalCode { get; private set; }
 
-    public Address(string city, string street, int postalCode)
+    public Address(string city, string street, int postalCode, string? country = "Egypt")
     {
         if (postalCode.ToString().Length != MaxPostCodeLength)
         {
@@ -21,11 +22,12 @@ public class Address : ValueObject
         City = city;
         Street = street;
         PostalCode = postalCode;
+        Country = country;
     }
 
     public override IEnumerable<object> GetEqualityComponents()
     {
-        yield return new object[] { City, Street, PostalCode };
+        yield return new object[] { City, Street, PostalCode, Country };
     }
 }
 

@@ -7,26 +7,25 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 
-namespace BigDinner.Service
+namespace BigDinner.Service;
+
+public static class ServiceModuleDependencies
 {
-    public static class ServiceModuleDependencies
+    public static IServiceCollection AddServiceDependencies(this IServiceCollection services, IConfiguration configuration)
     {
-        public static IServiceCollection AddServiceDependencies(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.Configure<JWT>(configuration.GetSection(JWT.SectionName));
+        services.Configure<JWT>(configuration.GetSection(JWT.SectionName));
 
-            services.Configure<EmailSetting>(configuration.GetSection(EmailSetting.SectionName));
-            services.AddSingleton(sp => sp.GetRequiredService<IOptions<EmailSetting>>().Value);
+        services.Configure<EmailSetting>(configuration.GetSection(EmailSetting.SectionName));
+        services.AddSingleton(sp => sp.GetRequiredService<IOptions<EmailSetting>>().Value);
 
-            services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<IEmailService, EmailService>();
 
-            services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+        services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
-            services.AddScoped<IUserClaimsService, UserClaimsService>();
+        services.AddScoped<IUserClaimsService, UserClaimsService>();
 
-            services.AddSingleton<IDateTimeProvider, DateTimeprovider>();
-            return services;
-        }
-
+        services.AddSingleton<IDateTimeProvider, DateTimeprovider>();
+        return services;
     }
+
 }
