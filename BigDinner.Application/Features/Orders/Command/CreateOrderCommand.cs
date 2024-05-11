@@ -53,8 +53,6 @@ public sealed class CreateOrderCommandHandler : ResponseHandler,
 
         order.ChangeOrderStatus(OrderStatus.Confirmed);
 
-        order.RaiseCreationalOrderEvent();
-
         _orderRepository.Add(order);
 
         await _unitOfWork.CompleteAsync();

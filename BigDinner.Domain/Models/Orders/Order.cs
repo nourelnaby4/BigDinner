@@ -28,6 +28,8 @@ public class Order : AggregateRoot<Guid>
         CustomerId = customerId;
         OrderDateOnUtc = DateTime.UtcNow;
         OrderStatus = OrderStatus.Pending;
+
+        this.RaiseDomainEvent(new OrderCreateDomainEvent(new OrderCreateEventMessage(CustomerId)));
     }
 
     public static Order Create(Guid customerId)
@@ -55,10 +57,5 @@ public class Order : AggregateRoot<Guid>
         }
 
         return new Price(totalPrice);
-    }
-
-    public void RaiseCreationalOrderEvent()
-    {
-        this.RaiseDomainEvent(new OrderCreateDomainEvent(new OrderCreateEventMessage(CustomerId)));
     }
 }
