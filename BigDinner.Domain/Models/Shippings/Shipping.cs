@@ -1,4 +1,5 @@
 ﻿using BigDinner.Domain.Models.Customers;
+using BigDinner.Domain.Models.Orders;
 
 namespace BigDinner.Domain.Models.Shippings;
 
@@ -16,6 +17,8 @@ public sealed class Shipping : AggregateRoot<Guid>
 
     public Guid TrackingNumber { get; private set; }
 
+    public Order Order { get; private set; }
+
     private Shipping(Guid id) : base(id)
     {
     }
@@ -31,7 +34,8 @@ public sealed class Shipping : AggregateRoot<Guid>
 
     public static Shipping Create( Guid orderId, Guid shippingMethodId, Guid trackingNumer, Address address)
     {
-        return new Shipping(Guid.NewGuid(),orderId,shippingMethodId,trackingNumer,address);
+        var Id= Guid.NewGuid();
+        return new Shipping(Id, orderId,shippingMethodId,trackingNumer, address);
     }
 }
 

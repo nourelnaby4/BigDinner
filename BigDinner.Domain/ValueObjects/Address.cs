@@ -1,5 +1,6 @@
 ﻿namespace BigDinner.Domain.ValueObjects;
 
+[ComplexType]
 public class Address : ValueObject
 {
     private int MaxPostCodeLength = 5;
