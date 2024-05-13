@@ -1,4 +1,4 @@
-﻿namespace BigDinner.Application.Common.Abstractions;
+﻿namespace BigDinner.Application.Common.Abstractions.Emails;
 
 public interface IEmailService
 {

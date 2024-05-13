@@ -2,6 +2,7 @@
 using BigDinner.Domain.Models.Customers;
 using BigDinner.Domain.Models.Menus;
 using BigDinner.Domain.Models.Orders;
+using BigDinner.Domain.Models.Shippings;
 using BigDinner.Persistence.Configurations;
 using BigDinner.Persistence.OutboxMessages;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +24,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
     public DbSet<Customer> Customers { get; set; }
 
     public DbSet<Order> Orders { get; set; }
+
+    public DbSet<Shipping> Shipping { get; set; }
+
+    public DbSet<ShippingMethod> ShippingMethod { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

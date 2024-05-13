@@ -1,4 +1,4 @@
-﻿using BigDinner.Application.Common.Abstractions;
+﻿using BigDinner.Application.Common.Abstractions.Emails;
 using BigDinner.Service.Authentication;
 using BigDinner.Service.Date;
 using BigDinner.Service.Emails;

@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Mail;
+using BigDinner.Application.Common.Abstractions.Emails;
 
 namespace BigDinner.Service.Emails;
 

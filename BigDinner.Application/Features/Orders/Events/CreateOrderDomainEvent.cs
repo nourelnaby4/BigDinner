@@ -1,4 +1,5 @@
-﻿using BigDinner.Domain.Models.Customers;
+﻿using BigDinner.Application.Common.Abstractions.Emails;
+using BigDinner.Domain.Models.Customers;
 using BigDinner.Domain.Models.Orders;
 
 namespace BigDinner.Application.Features.Orders.Events;
