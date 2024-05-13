@@ -2,8 +2,6 @@
 
 public class ShippingMethod : Entity<Guid>
 {
-    public Guid Id { get; private set; }
-
     public string Name { get; private set; }
 
     public string Description { get; private set; }
@@ -18,8 +16,8 @@ public class ShippingMethod : Entity<Guid>
         Description = description;
     }
 
-    public static ShippingMethod Create(Guid id, string name, string description)
+    public static ShippingMethod Create(string name, string description)
     {
-        return new ShippingMethod(id, name, description);
+        return new ShippingMethod(Guid.NewGuid(), name, description);
     }
 }
