@@ -28,7 +28,7 @@ public class ShippingOrderCreatedEvent : INotificationHandler<OrderCreatedShippi
 
         var address = await GetOrderAddress(eventMessage);
 
-        var shipping = Shipping.Create(eventMessage.orderId, eventMessage.shippingMethodId, address, Guid.NewGuid());
+        var shipping = Shipping.Create(eventMessage.orderId, eventMessage.shippingMethodId, address);
 
         _shippingRepository.Add(shipping);
 

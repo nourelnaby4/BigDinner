@@ -2,7 +2,7 @@
 
 public enum ShippingStatus
 {
-    Completed,
+    Completed=1,
     Pending,
     Inprogress,
     Closed

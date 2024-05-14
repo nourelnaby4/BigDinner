@@ -1,12 +1,11 @@
 ﻿using BigDinner.Domain.Models.Customers;
 using BigDinner.Domain.Models.Orders;
+using BigDinner.Domain.Models.Shippings.Events;
 
 namespace BigDinner.Domain.Models.Shippings;
 
 public sealed class Shipping : AggregateRoot<Guid>
 {
-    public Guid Id { get;private set; }
-
     public Guid OrderId { get; private set; }
 
     public Address Address { get; private set; }
@@ -32,10 +31,16 @@ public sealed class Shipping : AggregateRoot<Guid>
         Status = ShippingStatus.Inprogress;
     }
 
-    public static Shipping Create( Guid orderId, Guid shippingMethodId , Address address, Guid ? trackingNumer)
+    public static Shipping Create( Guid orderId, Guid shippingMethodId , Address address)
     {
-        var Id= Guid.NewGuid();
-        return new Shipping(Id, orderId,shippingMethodId, address, trackingNumer ?? Guid.NewGuid());
+        return new Shipping(Guid.NewGuid(), orderId,shippingMethodId, address, Guid.NewGuid());
+    }
+
+    public void ChangeShippingStatus(ShippingStatus shippingStatus)
+    {
+        Status = shippingStatus;
+
+        RaiseDomainEvent(new ChangeShippingStatusEvent(new ChangeShippingStatusEventMessage(Id,shippingStatus)));
     }
 }
 
