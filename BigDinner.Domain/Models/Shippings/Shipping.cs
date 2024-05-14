@@ -23,19 +23,19 @@ public sealed class Shipping : AggregateRoot<Guid>
     {
     }
 
-    private Shipping(Guid id,Guid orderId,Guid shippingMethodId, Guid trackingNumer,Address address) : base(id)
+    private Shipping(Guid id,Guid orderId,Guid shippingMethodId,Address address,Guid  trackingNumber) : base(id)
     {
         OrderId = orderId;
         Address = address;
-        TrackingNumber = trackingNumer;
+        TrackingNumber = trackingNumber ;
         ShippingMethodId=shippingMethodId;
         Status = ShippingStatus.Inprogress;
     }
 
-    public static Shipping Create( Guid orderId, Guid shippingMethodId, Guid trackingNumer, Address address)
+    public static Shipping Create( Guid orderId, Guid shippingMethodId , Address address, Guid ? trackingNumer)
     {
         var Id= Guid.NewGuid();
-        return new Shipping(Id, orderId,shippingMethodId,trackingNumer, address);
+        return new Shipping(Id, orderId,shippingMethodId, address, trackingNumer ?? Guid.NewGuid());
     }
 }
 

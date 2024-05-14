@@ -1,16 +1,16 @@
 ﻿using BigDinner.Application.Common.Abstractions.Emails;
 using BigDinner.Domain.Models.Customers;
-using BigDinner.Domain.Models.Orders;
+using BigDinner.Domain.Models.Orders.Events;
 
 namespace BigDinner.Application.Features.Orders.Events;
 
-public class CreateOrderDomainEvent : INotificationHandler<OrderCreateDomainEvent>
+public class SendCustomerMessageOrderCreatedEvent : INotificationHandler<OrderCreateDomainEvent>
 {
     private readonly IEmailService _emailService;
 
     private readonly ICustomerRepository _customerRepository;
 
-    public CreateOrderDomainEvent(IEmailService emailService, ICustomerRepository customerRepository)
+    public SendCustomerMessageOrderCreatedEvent(IEmailService emailService, ICustomerRepository customerRepository)
     {
         _emailService = emailService;
         _customerRepository = customerRepository;

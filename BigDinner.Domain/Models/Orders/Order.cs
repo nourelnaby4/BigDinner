@@ -1,5 +1,7 @@
 ﻿using BigDinner.Domain.Models.Customers;
 using BigDinner.Domain.Models.Shippings;
+using BigDinner.Domain.Models.Orders.Events;
+
 
 namespace BigDinner.Domain.Models.Orders;
 
@@ -25,19 +27,21 @@ public class Order : AggregateRoot<Guid>
     {
     }
 
-    private Order(Guid id, Guid orderNumer, Guid customerId) : base(id)
+    private Order(Guid id, Guid orderNumer, Guid customerId, Guid shippingMethodId, Address? address) : base(id)
     {
         OrderNumber = orderNumer;
         CustomerId = customerId;
         OrderDateOnUtc = DateTime.UtcNow;
         OrderStatus = OrderStatus.Pending;
 
-        this.RaiseDomainEvent(new OrderCreateDomainEvent(new OrderCreateEventMessage(CustomerId)));
+        this.RaiseDomainEvent(new OrderCreateDomainEvent(new OrderCreateSendMessageEventData(CustomerId)));
+
+        this.RaiseDomainEvent(new OrderCreatedShippingEvent(new OrderCreatedShippingEventMessage(id, customerId, address, shippingMethodId)));
     }
 
-    public static Order Create(Guid customerId)
+    public static Order Create(Guid customerId, Guid shippingMethodId, Address? address)
     {
-        return new Order(Guid.NewGuid(), Guid.NewGuid(), customerId);
+        return new Order(Guid.NewGuid(), Guid.NewGuid(), customerId, shippingMethodId, address);
     }
 
     public void addOrderItem(OrderItem item)
