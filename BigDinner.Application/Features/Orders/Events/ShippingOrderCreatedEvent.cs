@@ -26,33 +26,10 @@ public class ShippingOrderCreatedEvent : INotificationHandler<OrderCreatedShippi
     {
         var eventMessage = notification.EventMessage;
 
-        var address = await GetOrderAddress(eventMessage);
-
-        var shipping = Shipping.Create(eventMessage.orderId, eventMessage.shippingMethodId, address);
+        var shipping = Shipping.Create(eventMessage.orderId, eventMessage.shippingMethodId, eventMessage.address);
 
         _shippingRepository.Add(shipping);
 
         await _unitOfWork.CompleteAsync();
-    }
-
-    private async Task<Address> GetOrderAddress(OrderCreatedShippingEventMessage eventMessage)
-    {
-        var address = eventMessage.address;
-
-        if (address is not null)
-            return address;
-
-        // incase user dont enter order address save it on customer address
-        var customer = await _customerRepository.GetByIdAsync(eventMessage.customerId);
-
-        if (customer is null)
-            throw new InvalidDataException("customer is not found");
-
-        if(customer.Address is null)
-            throw new InvalidDataException("address is not found");
-
-        address = customer.Address;
-
-        return address;
     }
 }

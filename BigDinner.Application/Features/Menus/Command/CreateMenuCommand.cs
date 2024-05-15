@@ -4,24 +4,10 @@ using BigDinner.Domain.Models.Orders;
 
 namespace BigDinner.Application.Features.Menus.Command;
 
-public record CreateMenuCommand : IRequest<Response<string>>
-{
-    public string Name { get; set; }
+public record CreateMenuCommand(string Name, string Description, List<MenuItemDto> Items)
+    : IRequest<Response<string>>;
 
-    public string Description { get; set; }
-
-    public List<MenuItemDto> Items { get; set; }
-}
-
-public record MenuItemDto
-{
-    public string Name { get;  set; }
-
-    public string Description { get;  set; }
-
-    public Price Price { get;  set; }
-}
-
+public record MenuItemDto(string Name, string Description, Price Price);
 
 
 public sealed class CreateMenuCommandHandler : ResponseHandler,

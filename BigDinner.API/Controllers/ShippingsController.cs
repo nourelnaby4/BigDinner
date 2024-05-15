@@ -12,8 +12,6 @@ public class ShippingsController : ControllerMain
     public ShippingsController(IMediator mediator)
         => _mediator = mediator;
 
-  
-
     [HttpPost("chage-status/{shippingId}")]
     public async Task<IActionResult> Create(Guid shippingId,ShippingStatus status)
         => GetResponse(await _mediator.Send(new ChangeShippingStatusCommand(shippingId,status)));

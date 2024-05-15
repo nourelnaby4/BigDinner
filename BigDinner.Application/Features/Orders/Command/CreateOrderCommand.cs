@@ -3,25 +3,10 @@ using BigDinner.Domain.Models.Orders;
 
 namespace BigDinner.Application.Features.Orders.Command;
 
-public record CreateOrderCommand : IRequest<Response<string>>
-{
-    public Guid CustomerId { get; set; }
+public record CreateOrderCommand(Guid CustomerId, Address Address, Guid ShippingMethodId, List<OrderItemDto> Items)
+    : IRequest<Response<string>>;
 
-    public Address? Address { get; set; }
-
-    public Guid ShippingMethodId { get; set; }
-
-    public List<OrderItemDto> Items { get; set; }
-}
-
-public record OrderItemDto
-{
-    public Guid MenuId { get; set; }
-
-    public Guid MenuItemId { get; set; }
-
-    public int Quantity { get; set; }
-}
+public record OrderItemDto(Guid MenuId, Guid MenuItemId, int Quantity);
 
 public sealed class CreateOrderCommandHandler : ResponseHandler,
     IRequestHandler<CreateOrderCommand, Response<string>>
