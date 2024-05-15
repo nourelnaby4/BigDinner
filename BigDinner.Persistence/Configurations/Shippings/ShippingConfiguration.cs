@@ -20,11 +20,12 @@ public class ShippingConfiguration : IEntityTypeConfiguration<Shipping>
                .WithOne(o => o.Shipping)
                .HasForeignKey<Shipping>(s => s.OrderId);
 
-        //builder.HasOne(s => s.Address)
-        //       .WithOne(a => a.Shipping)
-        //       .HasForeignKey<ShippingAddress>(sa => sa.ShippingId)
-        //       .IsRequired()
-        //       .OnDelete(DeleteBehavior.Cascade);
+        builder.HasOne(s => s.ShippingMethod)
+               .WithMany()
+               .HasForeignKey(m => m.ShippingMethodId)
+               .HasPrincipalKey(sm => sm.Id)
+               .IsRequired()
+               .OnDelete(DeleteBehavior.ClientSetNull);
 
         builder.OwnsOne(x => x.Address);
     }

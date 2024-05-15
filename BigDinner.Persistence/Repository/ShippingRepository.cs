@@ -13,7 +13,9 @@ public class ShippingRepository : IShippingRepository
         => _context.Add(shipping);
 
     public async Task<List<Shipping>> GetAll()
-        => await _context.Shipping.ToListAsync();
+        => await _context.Shipping
+          .Include(x=>x.ShippingMethod)
+          .ToListAsync();
 
     public async Task<Shipping> GetByIdAsync(Guid id)
         => await _context.Shipping

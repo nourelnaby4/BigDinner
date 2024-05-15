@@ -16,7 +16,9 @@ public sealed class Shipping : AggregateRoot<Guid>
 
     public Guid TrackingNumber { get; private set; }
 
-    public Order Order { get; private set; }
+    public  Order Order { get; private set; }
+
+    public ShippingMethod ShippingMethod { get; private set; }
 
     private Shipping(Guid id) : base(id)
     {
