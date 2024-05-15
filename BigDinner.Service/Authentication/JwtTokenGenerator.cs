@@ -22,15 +22,8 @@ namespace BigDinner.Service.Authentication
             _userClaimsService = userClaimsService;
             _dateProvider = dateTimeProvider;
         }
-        public async Task<TokenModel> GenerateToken(string email, string password)
+        public async Task<TokenModel> GenerateToken(ApplicationUser user)
         {
-
-            var user = await _userManager.FindByEmailAsync(email);
-            if (user is null)
-                throw new Exception($"username or password is incorrect");
-            if (!await _userManager.CheckPasswordAsync(user, password))
-                throw new Exception($"username or password is incorrect");
-
             var claims = await _userClaimsService.CreateUserClaims(user);
 
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwt.Key));
@@ -49,9 +42,9 @@ namespace BigDinner.Service.Authentication
                 User = user,
             };
         }
-        public async Task<AuthResponse> CreateAuthModel(string email,string password)
+        public async Task<AuthResponse> CreateAuthModel(ApplicationUser user)
         {
-            var tokenModel = await GenerateToken( email,  password);
+            var tokenModel = await GenerateToken(user);
             var roles = await _userManager.GetRolesAsync(tokenModel.User);
 
             return new AuthResponse
@@ -61,7 +54,7 @@ namespace BigDinner.Service.Authentication
                 Email = tokenModel.User.Email,
                 Username = tokenModel.User.UserName,
                 ExpiresOnUtc = tokenModel.ExpiresOnUtc,
-                Roles = roles.ToList()
+                Roles = roles?.ToList()
             };
         }
        

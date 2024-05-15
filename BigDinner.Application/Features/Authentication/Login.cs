@@ -14,22 +14,24 @@ namespace BigDinner.Application.Features.Authentication
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
         public Login(
             UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             IJwtTokenGenerator jwtTokenGenerator)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
             _jwtTokenGenerator = jwtTokenGenerator;
         }
         public async Task<Response<AuthResponse>> Handle(LoginRequest request, CancellationToken cancellationToken)
         {
             var user = await _userManager.FindByEmailAsync(request.Email);
             if (user == null)
-                throw new UnauthorizedAccessException("email is not exist");
+                return Unauthorized<AuthResponse>("email or password is invalid");
 
             var signIn = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
             if (!signIn.Succeeded)
-                throw new UnauthorizedAccessException("password is incorrect");
+                return Unauthorized<AuthResponse>("email or password is invalid");
 
-            var authModel = await _jwtTokenGenerator.CreateAuthModel(request.Email, request.Password);
+            var authModel = await _jwtTokenGenerator.CreateAuthModel(user);
             return Success(authModel);
         }
     }

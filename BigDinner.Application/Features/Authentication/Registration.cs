@@ -12,10 +12,10 @@ public record RegistrationRequest( string Username, string Email, string Passwor
 public class Registration : ResponseHandler,
                             IRequestHandler<RegistrationRequest, Response<AuthResponse>>
 {
-    public readonly IUserRepo _userManager;
+    public readonly UserManager<ApplicationUser> _userManager;
     public readonly IJwtTokenGenerator _jwtTokenGenerator;
     public Registration(
-        IUserRepo userManager,
+        UserManager<ApplicationUser> userManager,
         IJwtTokenGenerator jwtTokenGenerator)
     {
         _userManager = userManager;
@@ -25,11 +25,11 @@ public class Registration : ResponseHandler,
 
     public async Task<Response<AuthResponse>> Handle(RegistrationRequest request, CancellationToken cancellationToken)
     {
-        var userByEmail = await _userManager.GetUserByEmail(request.Email);
+        var userByEmail = await _userManager.FindByEmailAsync(request.Email);
         if (userByEmail is not null)
             return BadRequest<AuthResponse>("Email is already exits");
 
-        var userByUsername = await _userManager.GetUserByUsername(request.Username);
+        var userByUsername = await _userManager.FindByEmailAsync(request.Username);
         if (userByUsername is not null)
             return BadRequest<AuthResponse>("username is already exits");
 
@@ -38,28 +38,11 @@ public class Registration : ResponseHandler,
             Id=Guid.NewGuid().ToString(),
             UserName = request.Username,
             Email = request.Email,
-            PasswordHash = HashPassword(request.Password),
         };
-        await _userManager.AddAsync(user);
-        await _userManager.SaveChangesAsync();
-        var authModel = await _jwtTokenGenerator.CreateAuthModel(request.Email, request.Password);
+        await _userManager.CreateAsync(user,request.Password);
+
+        var authModel = await _jwtTokenGenerator.CreateAuthModel(user);
         return Created(authModel);
-    }
-    private static string HashPassword(string password)
-    {
-        using (var sha256 = SHA256.Create())
-        {
-            byte[] hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-
-            // Convert the byte array to hexadecimal string
-            StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < hashedBytes.Length; i++)
-            {
-                builder.Append(hashedBytes[i].ToString("x2"));
-            }
-
-            return builder.ToString();
-        }
     }
 }
 
