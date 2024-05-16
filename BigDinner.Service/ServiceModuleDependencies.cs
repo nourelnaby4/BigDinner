@@ -1,7 +1,10 @@
-﻿using BigDinner.Application.Common.Abstractions.Emails;
+﻿using BigDinner.Application.Common.Abstractions.Cache;
+using BigDinner.Application.Common.Abstractions.Emails;
 using BigDinner.Service.Authentication;
+using BigDinner.Service.Cache;
 using BigDinner.Service.Date;
 using BigDinner.Service.Emails;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -25,6 +28,23 @@ public static class ServiceModuleDependencies
         services.AddScoped<IUserClaimsService, UserClaimsService>();
 
         services.AddSingleton<IDateTimeProvider, DateTimeprovider>();
+
+        #region cache
+        var cacheExpirationMinutes = configuration.GetSection("CacheSettings")
+            .GetValue<int>("DefaultCacheExpirationMinutes");
+
+        services.AddScoped<IMemoryCacheService, MemoryCacheService>();
+        services.AddMemoryCache(options =>
+        {
+            options.ExpirationScanFrequency = TimeSpan.FromMinutes(5); // Optional: Set the frequency for scanning expired items
+        });
+
+        services.Configure<MemoryCacheEntryOptions>(options =>
+        {
+            options.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(cacheExpirationMinutes); // Set default expiration time to 30 minutes
+        });
+        #endregion
+
         return services;
     }
 
