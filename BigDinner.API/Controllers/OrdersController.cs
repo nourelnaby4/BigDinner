@@ -1,4 +1,5 @@
 ﻿using BigDinner.Application.Features.Orders.Command;
+using BigDinner.Application.Features.Orders.Query;
 
 namespace BigDinner.API.Controllers;
 
@@ -10,6 +11,10 @@ public class OrdersController : ControllerMain
 
     public OrdersController(IMediator mediator)
         => _mediator = mediator;
+
+    [HttpGet("get")]
+    public async Task<IActionResult> Get()
+        => GetResponse(await _mediator.Send(new GetOrderQuery()));
 
     [HttpPost("create")]
     public async Task<IActionResult> Create([FromBody] CreateOrderCommand command)

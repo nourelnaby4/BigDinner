@@ -12,6 +12,7 @@ namespace BigDinner.Application.Features.Authentication
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
+
         public Login(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,

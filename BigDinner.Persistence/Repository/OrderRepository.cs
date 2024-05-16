@@ -18,7 +18,8 @@ public class OrderRepository : IOrderRepository
     public async Task<IEnumerable<Order>> GetAll()
     {
         return await _context.Orders
-            .Include(x=>x.Items)
+            .Include(x => x.Items)
+            .Include(x => x.Shipping)
             .ToListAsync();
     }
 
@@ -26,6 +27,6 @@ public class OrderRepository : IOrderRepository
     {
         return await _context.Orders
             .Include(x => x.Items)
-            .FirstOrDefaultAsync(x=>x.Id==orderId);
+            .FirstOrDefaultAsync(x => x.Id == orderId);
     }
 }

@@ -4,23 +4,11 @@ using BigDinner.Application.Common.Abstractions.Repository;
 
 namespace BigDinner.Application.Features.Menus.Query;
 
-public sealed record GetAllMenuQuery() 
-    : IRequest<Response<IEnumerable<GetAllMenuQueryResponse>>>;
+public sealed record GetAllMenuQuery() : IRequest<Response<IEnumerable<GetAllMenuQueryResponse>>>;
 
-
-public record MenuItemResponseDto
-{
-    public string Id { get; set; }
-
-    public string Name { get; set; }
-
-    public string Description { get; set; }
-
-    public Price Price { get; set; }
-}
+public record MenuItemResponseDto(string Id, string Name, string Description, Price Price);
 
 public sealed record GetAllMenuQueryResponse(Guid Id,string Name ,string Description,List<MenuItemResponseDto> Items);
-
 
 public sealed class GetAllMenuQueryHandler : ResponseHandler,
     IRequestHandler<GetAllMenuQuery, Response<IEnumerable<GetAllMenuQueryResponse>>>
