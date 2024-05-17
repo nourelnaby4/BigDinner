@@ -8,6 +8,10 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using System.Text.Json.Serialization;
+using System.Text.Json;
+using Newtonsoft.Json;
+using BigDinner.Application.Common.Abstractions.JsonSerialize;
 
 
 namespace BigDinner.Service;
@@ -44,6 +48,21 @@ public static class ServiceModuleDependencies
             options.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(cacheExpirationMinutes); // Set default expiration time to 30 minutes
         });
         #endregion
+
+        services.AddSingleton(new JsonSerializerOptions
+        {
+            ReferenceHandler = ReferenceHandler.Preserve,
+            WriteIndented = false,
+
+        });
+
+        services.AddSingleton(new JsonSerializerSettings
+        {
+            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+        }) ;
+
+        services.AddScoped<IRedisCacheService, RedisCacheService>();
 
         return services;
     }

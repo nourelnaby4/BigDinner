@@ -7,23 +7,27 @@ namespace BigDinner.Persistence.Repository;
 public class OrderRepository : IOrderRepository
 {
     private readonly ApplicationDbContext _context;
-    private readonly IMemoryCacheService _memoryCacheService;
+    private readonly IRedisCacheService _cache;
 
-    public OrderRepository(ApplicationDbContext context, IMemoryCacheService cacheService)
+    public OrderRepository(ApplicationDbContext context, IRedisCacheService cache)
     {
         _context = context;
-        _memoryCacheService = cacheService;
+        _cache = cache;
     }
 
     public void Add(Order order)
-        => _context.Add(order);
+    {
+        _context.Add(order);
+
+        _cache.Invalidate("orderList").Wait();
+    }
 
 
     public async Task<IEnumerable<Order>> GetAll()
     {
         var key = "orderList";
 
-        return await _memoryCacheService.Get(key, async () =>
+        return await _cache.Get(key, async () =>
         {
             return await _context.Orders
                 .Include(x => x.Items)
@@ -33,9 +37,9 @@ public class OrderRepository : IOrderRepository
     }
     public async Task<Order?> GetById(Guid orderId)
     {
-        var key = $"order={orderId}";
+        var key = $"order-{orderId}";
 
-        return await _memoryCacheService.Get(key, async () =>
+        return await _cache.Get(key, async () =>
         {
            return await _context.Orders
            .Include(x => x.Items)

@@ -1,6 +1,7 @@
 ﻿using BigDinner.Domain.Models.Customers;
 using BigDinner.Domain.Models.Shippings;
 using BigDinner.Domain.Models.Orders.Events;
+using System.Text.Json.Serialization;
 
 
 namespace BigDinner.Domain.Models.Orders;
@@ -23,10 +24,10 @@ public class Order : AggregateRoot<Guid>
 
     //public Payment Payment { get; private set; }
 
+    [JsonConstructor]
     private Order(Guid id) : base(id)
     {
     }
-
     private Order(Guid id, Guid orderNumer, Guid customerId, Guid shippingMethodId, Address? address) : base(id)
     {
         OrderNumber = orderNumer;
