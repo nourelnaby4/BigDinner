@@ -1,4 +1,5 @@
 ﻿using BigDinner.Application.Common.Abstractions.Authentication;
+using BigDinner.Domain.Models.Base;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 

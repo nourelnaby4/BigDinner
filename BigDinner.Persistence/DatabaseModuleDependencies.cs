@@ -1,4 +1,5 @@
-﻿using BigDinner.Persistence.Context;
+﻿using BigDinner.Domain.Models.Base;
+using BigDinner.Persistence.Context;
 using BigDinner.Persistence.Interceptors;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

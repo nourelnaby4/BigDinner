@@ -1,4 +1,4 @@
-﻿using BigDinner.Domain.Identities;
+﻿using BigDinner.Domain.Models.Base;
 using System.Security.Claims;
 
 

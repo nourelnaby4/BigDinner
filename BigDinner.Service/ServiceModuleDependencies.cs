@@ -34,7 +34,7 @@ public static class ServiceModuleDependencies
         services.AddSingleton<IDateTimeProvider, DateTimeprovider>();
 
         #region cache
-        var cacheExpirationMinutes = configuration.GetSection("CacheSettings")
+        var cacheExpirationMinutes = configuration.GetSection("MemoryCacheSettings")
             .GetValue<int>("DefaultCacheExpirationMinutes");
 
         services.AddScoped<IMemoryCacheService, MemoryCacheService>();
@@ -63,6 +63,9 @@ public static class ServiceModuleDependencies
         }) ;
 
         services.AddScoped<IRedisCacheService, RedisCacheService>();
+
+        services.Configure<RedisSetting>(configuration.GetSection(RedisSetting.SectionName));
+        services.AddSingleton(sp => sp.GetRequiredService<IOptions<RedisSetting>>().Value);
 
         return services;
     }

@@ -1,5 +1,6 @@
 ﻿using BigDinner.Application.Common.Abstractions.Authentication;
 using BigDinner.Application.Common.Models;
+using BigDinner.Domain.Models.Base;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Security.Cryptography;

@@ -28,6 +28,7 @@ public class Order : AggregateRoot<Guid>
     private Order(Guid id) : base(id)
     {
     }
+
     private Order(Guid id, Guid orderNumer, Guid customerId, Guid shippingMethodId, Address? address) : base(id)
     {
         OrderNumber = orderNumer;

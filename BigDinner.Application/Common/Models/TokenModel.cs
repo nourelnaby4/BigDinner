@@ -1,4 +1,6 @@
-﻿namespace BigDinner.Application.Common.Models
+﻿using BigDinner.Domain.Models.Base;
+
+namespace BigDinner.Application.Common.Models
 {
     public record TokenModel
     {

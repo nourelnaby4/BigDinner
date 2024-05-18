@@ -1,5 +1,5 @@
 ﻿using BigDinner.Application.Common.Models;
-using BigDinner.Domain.Identities;
+using BigDinner.Domain.Models.Base;
 
 
 namespace BigDinner.Application.Common.Abstractions.Authentication

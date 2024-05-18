@@ -6,10 +6,9 @@ global using System.Threading.Tasks;
 global using MediatR;
 global using AutoMapper;
 
-global using BigDinner.Domain.Identities;
+global using BigDinner.Domain.Models.Base;
 global using BigDinner.Application.Common.Models;
 global using BigDinner.Domain.ValueObjects;
-global using BigDinner.Application.Common.Abstractions.Repositories;
 global using BigDinner.Application.Common.Abstractions.Repository;
 global using BigDinner.Application.Common.Abstractions;
 

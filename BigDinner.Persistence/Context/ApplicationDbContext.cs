@@ -1,4 +1,4 @@
-﻿using BigDinner.Domain.Identities;
+﻿using BigDinner.Domain.Models.Base;
 using BigDinner.Domain.Models.Customers;
 using BigDinner.Domain.Models.Menus;
 using BigDinner.Domain.Models.Orders;

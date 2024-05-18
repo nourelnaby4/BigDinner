@@ -17,8 +17,6 @@ public static class PersistenceModuleDependencies
     {
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-        services.AddScoped<IUserRepo, UserRepo>();
-
         services.AddScoped<IMenuRepository, MenuRepository>();
 
         services.AddScoped<ICustomerRepository, CustomerRepository>();
