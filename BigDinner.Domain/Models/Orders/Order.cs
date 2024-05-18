@@ -39,6 +39,8 @@ public class Order : AggregateRoot<Guid>
         this.RaiseDomainEvent(new OrderCreateDomainEvent(new OrderCreateSendMessageEventData(CustomerId)));
 
         this.RaiseDomainEvent(new OrderCreatedShippingEvent(new OrderCreatedShippingEventMessage(id, customerId, address, shippingMethodId)));
+
+        this.RaiseDomainEvent(new OrderCreatedNoticationEvent(this));
     }
 
     public static Order Create(Guid customerId, Guid shippingMethodId, Address? address)

@@ -1,8 +1,10 @@
 ﻿using BigDinner.Application.Common.Abstractions.Cache;
 using BigDinner.Application.Common.Abstractions.JsonSerialize;
+using BigDinner.Domain.Models.Notifications;
 using Microsoft.Extensions.Configuration;
 using StackExchange.Redis;
 using System.Text.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace BigDinner.Service.Cache;
 
 public class RedisCacheService : IRedisCacheService
@@ -35,16 +37,25 @@ public class RedisCacheService : IRedisCacheService
 
         if (_cache.KeyExists(key))
         {
-            var cacheData =await _cache.StringGetAsync(key);
+            var cacheData = await _cache.StringGetAsync(key);
 
-            result = JsonSerializer.Deserialize<T>(cacheData, _jsonSerializerOptions);
+            result = await GetAsycn<T>(key);
         }
         else
         {
             result = await GetFromDB();
 
-            await _cache.StringSetAsync(key, JsonSerializer.Serialize(result, _jsonSerializerOptions),TimeSpan.FromMinutes(30));
+            await SetAsync<T>(key, result, TimeSpan.FromMinutes(30));
         }
+
+        return result;
+    }
+
+    public async Task<T> GetAsycn<T>(string key)
+    {
+        var cacheData = await _cache.StringGetAsync(key);
+
+        T result = JsonSerializer.Deserialize<T>(cacheData, _jsonSerializerOptions);
 
         return result;
     }
@@ -54,4 +65,8 @@ public class RedisCacheService : IRedisCacheService
         await _cache.KeyDeleteAsync(key);
     }
 
+    public async Task SetAsync<T>(string key, T data, TimeSpan expirDuration)
+    {
+        await _cache.StringSetAsync(key, JsonSerializer.Serialize(data, _jsonSerializerOptions), expirDuration);
+    }
 }
