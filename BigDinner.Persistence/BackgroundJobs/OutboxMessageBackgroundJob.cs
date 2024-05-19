@@ -3,6 +3,7 @@ using BigDinner.Persistence.OutboxMessages;
 using MediatR;
 using Newtonsoft.Json;
 using Quartz;
+using Serilog;
 
 namespace BigDinner.Persistence.BackgroundJobs;
 
@@ -53,7 +54,7 @@ public class OutboxMessageBackgroundJob : IJob
         }
         catch (Exception ex)
         {
-            throw;
+            Log.Error(ex, "An error occurred while processing outbox messages");
         }
 
     }

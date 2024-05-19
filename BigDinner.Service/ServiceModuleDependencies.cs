@@ -54,13 +54,15 @@ public static class ServiceModuleDependencies
             ReferenceHandler = ReferenceHandler.Preserve,
             WriteIndented = false,
 
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         });
 
         services.AddSingleton(new JsonSerializerSettings
         {
             ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-        }) ;
+            ContractResolver = new PrivateResolver(),
+        });
 
         services.AddScoped<IRedisCacheService, RedisCacheService>();
 

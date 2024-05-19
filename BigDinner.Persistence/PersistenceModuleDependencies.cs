@@ -1,4 +1,5 @@
-﻿using BigDinner.Application.Common.Abstractions.Repository;
+﻿using BigDinner.Application.Common.Abstractions.JsonSerialize;
+using BigDinner.Application.Common.Abstractions.Repository;
 using BigDinner.Domain.Models.Customers;
 using BigDinner.Domain.Models.Menus;
 using BigDinner.Domain.Models.Orders;
@@ -7,6 +8,7 @@ using BigDinner.Persistence.BackgroundJobs;
 using BigDinner.Persistence.Interceptors;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using Quartz;
 
 namespace BigDinner.Persistence;
@@ -45,6 +47,13 @@ public static class PersistenceModuleDependencies
         });
 
         services.AddQuartzHostedService();
+
+        services.AddSingleton(new JsonSerializerSettings
+        {
+            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            ContractResolver = new PrivateResolver(),
+        });
 
         return services;
     }

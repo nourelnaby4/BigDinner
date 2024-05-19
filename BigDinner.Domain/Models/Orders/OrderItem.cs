@@ -1,7 +1,10 @@
-﻿namespace BigDinner.Domain.Models.Orders;
+﻿using Newtonsoft.Json;
+
+namespace BigDinner.Domain.Models.Orders;
 
 public class OrderItem : Entity<Guid>
 {
+    [JsonConstructor]
     private OrderItem(Guid id) : base(id)
     {
     }
@@ -13,6 +16,7 @@ public class OrderItem : Entity<Guid>
     public Price Price { get;private set; }
 
     public Guid OrderId { get; private set; }
+
 
     private OrderItem(Guid id, Guid orderId, string name, int quantity, Price price)  :base(id)
     {

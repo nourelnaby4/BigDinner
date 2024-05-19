@@ -1,8 +1,8 @@
 ﻿using BigDinner.Application.Common.Abstractions.Cache;
 using BigDinner.Application.Common.Abstractions.JsonSerialize;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using StackExchange.Redis;
-using System.Text.Json;
 namespace BigDinner.Service.Cache;
 
 public class RedisCacheService : IRedisCacheService
@@ -14,12 +14,12 @@ public class RedisCacheService : IRedisCacheService
 
     private static Lazy<ConnectionMultiplexer> lazyConnection;
 
-    private readonly JsonSerializerOptions _jsonSerializerOptions;
+    private readonly JsonSerializerSettings _jsonSerializerOptions;
 
     IDatabase _cache;
 
     public RedisCacheService(
-        JsonSerializerOptions jsonSerializerOptions,
+        JsonSerializerSettings jsonSerializerOptions,
         RedisSetting redisSetting)
     {
         lazyConnection = new Lazy<ConnectionMultiplexer>(() => ConnectionMultiplexer.Connect(redisSetting.ConnectionString));
@@ -35,15 +35,25 @@ public class RedisCacheService : IRedisCacheService
 
         if (_cache.KeyExists(key))
         {
-            var cacheData =await _cache.StringGetAsync(key);
+            var cacheData = await _cache.StringGetAsync(key);
 
-            result = JsonSerializer.Deserialize<T>(cacheData, _jsonSerializerOptions);
+            result = JsonConvert.DeserializeObject<T>(cacheData, new JsonSerializerSettings
+            {
+                ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                ContractResolver = new PrivateResolver(),
+            });
         }
         else
         {
             result = await GetFromDB();
 
-            await _cache.StringSetAsync(key, JsonSerializer.Serialize(result, _jsonSerializerOptions),TimeSpan.FromMinutes(30));
+            await _cache.StringSetAsync(key, JsonConvert.SerializeObject(result, new JsonSerializerSettings
+            {
+                ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                ContractResolver = new PrivateResolver(),
+            }), TimeSpan.FromMinutes(30));
         }
 
         return result;
@@ -51,7 +61,9 @@ public class RedisCacheService : IRedisCacheService
 
     public async Task Invalidate(string key)
     {
-        await _cache.KeyDeleteAsync(key);
+        if (_cache.KeyExists(key))
+        {
+            await _cache.KeyDeleteAsync(key);
+        }
     }
-
 }

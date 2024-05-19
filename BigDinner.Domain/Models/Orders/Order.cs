@@ -1,8 +1,7 @@
 ﻿using BigDinner.Domain.Models.Customers;
 using BigDinner.Domain.Models.Shippings;
 using BigDinner.Domain.Models.Orders.Events;
-using System.Text.Json.Serialization;
-
+using Newtonsoft.Json;
 
 namespace BigDinner.Domain.Models.Orders;
 

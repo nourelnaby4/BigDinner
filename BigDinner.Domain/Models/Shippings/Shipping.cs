@@ -1,6 +1,7 @@
 ﻿using BigDinner.Domain.Models.Customers;
 using BigDinner.Domain.Models.Orders;
 using BigDinner.Domain.Models.Shippings.Events;
+using Newtonsoft.Json;
 
 namespace BigDinner.Domain.Models.Shippings;
 
@@ -20,6 +21,7 @@ public sealed class Shipping : AggregateRoot<Guid>
 
     public ShippingMethod ShippingMethod { get; private set; }
 
+    [JsonConstructor]
     private Shipping(Guid id) : base(id)
     {
     }

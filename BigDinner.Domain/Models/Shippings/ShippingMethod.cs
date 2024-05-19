@@ -1,4 +1,6 @@
-﻿namespace BigDinner.Domain.Models.Shippings;
+﻿using Newtonsoft.Json;
+
+namespace BigDinner.Domain.Models.Shippings;
 
 public class ShippingMethod : Entity<Guid>
 {
@@ -6,6 +8,7 @@ public class ShippingMethod : Entity<Guid>
 
     public string Description { get; private set; }
 
+    [JsonConstructor]
     private ShippingMethod(Guid id) : base(id)
     {
     }

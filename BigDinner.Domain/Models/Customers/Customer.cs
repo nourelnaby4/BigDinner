@@ -1,12 +1,11 @@
 ﻿using BigDinner.Domain.Models.Orders;
+using Newtonsoft.Json;
 
 namespace BigDinner.Domain.Models.Customers;
 
 public class Customer : AggregateRoot<Guid>
 {
     private const int MaxPhoneLength = 15;
-
-    private readonly HashSet<Order> _orders = new();
 
     public string Name { get; private set; }
 
@@ -16,8 +15,7 @@ public class Customer : AggregateRoot<Guid>
 
     public Address Address { get; private set; }
 
-    public IReadOnlyCollection<Order> Orders => _orders.ToList();
-
+    [JsonConstructor]
     private Customer(Guid id) : base(id)
     {
     }

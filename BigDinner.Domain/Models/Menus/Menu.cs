@@ -1,4 +1,6 @@
-﻿namespace BigDinner.Domain.Models.Menus;
+﻿using Newtonsoft.Json;
+
+namespace BigDinner.Domain.Models.Menus;
 
 public sealed class Menu : AggregateRoot<Guid>
 {
@@ -16,6 +18,8 @@ public sealed class Menu : AggregateRoot<Guid>
 
     public IReadOnlyList<MenuItem> Items => _items.ToList();
 
+    [JsonConstructor]
+    private Menu(Guid id) : base(id) { }
      
     private Menu(Guid id, string name, string description) : base(id)
     {

@@ -5,24 +5,37 @@ namespace BigDinner.Persistence.Repository;
 public class CustomerRepository : ICustomerRepository
 {
     private readonly ApplicationDbContext _context;
+    private readonly IRedisCacheService _cache;
 
-    public CustomerRepository(ApplicationDbContext context)
+    public CustomerRepository(ApplicationDbContext context, IRedisCacheService cache)
     {
         _context = context;
+        _cache = cache;
     }
 
     public void Add(Customer customer)
     {
         _context.Add(customer);
+        _cache.Invalidate("customer");
     }
 
     public async Task<IEnumerable<Customer>> GetAllAsync()
     {
-       return await _context.Customers.ToListAsync();
+        string key = "customers";
+
+        return await _cache.Get(key, async () =>
+        {
+            return await _context.Customers.ToListAsync();
+        });
     }
 
     public async Task<Customer?> GetByIdAsync(Guid customerId)
     {
-        return await _context.Customers.FindAsync(customerId);
+        string key = $"customers-{customerId}";
+
+        return await _cache.Get(key, async () =>
+        {
+            return await _context.Customers.FindAsync(customerId);
+        });
     }
 }

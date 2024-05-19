@@ -1,6 +1,5 @@
 ﻿using BigDinner.Domain.ValueObjects;
-using System.Xml.Linq;
-using System.Diagnostics;
+using Newtonsoft.Json;
 
 namespace BigDinner.Domain.Models.Menus;
 
@@ -14,6 +13,7 @@ public sealed class MenuItem : Entity<Guid>
 
     public Guid MenuId { get; private set; }
 
+    [JsonConstructor]
     private MenuItem(Guid id) : base(id)
     {
     }

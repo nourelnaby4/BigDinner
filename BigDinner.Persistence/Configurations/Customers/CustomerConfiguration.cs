@@ -21,13 +21,6 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
         builder.ComplexProperty(c => c.Address);
 
 
-        builder.HasMany(m => m.Orders)
-            .WithOne()
-            .HasForeignKey(p => p.CustomerId)
-            .IsRequired()
-            .OnDelete(DeleteBehavior.Cascade);
-
-
     }
 }
 
