@@ -36,8 +36,9 @@ public class OutboxMessageBackgroundJob : IJob
                     outboxMessage.Content,
                     new JsonSerializerSettings
                     {
-                        TypeNameHandling = TypeNameHandling.All
-                    });
+                        TypeNameHandling = TypeNameHandling.All,
+                        ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
+                    }) ;
 
                 if (domainEvent is null)
                 {

@@ -1,10 +1,10 @@
 ﻿using BigDinner.Application.Common.Abstractions.Cache;
 using BigDinner.Application.Common.Abstractions.JsonSerialize;
 using BigDinner.Domain.Models.Notifications;
+using MediatR;
 using Microsoft.Extensions.Configuration;
 using StackExchange.Redis;
 using System.Text.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace BigDinner.Service.Cache;
 
 public class RedisCacheService : IRedisCacheService
@@ -68,5 +68,30 @@ public class RedisCacheService : IRedisCacheService
     public async Task SetAsync<T>(string key, T data, TimeSpan expirDuration)
     {
         await _cache.StringSetAsync(key, JsonSerializer.Serialize(data, _jsonSerializerOptions), expirDuration);
+    }
+
+    public async Task AddTolist<T>(string key, List<T> list)
+    {
+      
+        var redisValues = list.Select(ConvertToRedisValue).ToList();
+        await _cache.ListLeftPushAsync(key, redisValues.ToArray());
+    }
+
+    //public async Task<List<T>> GetListAsObject<T>(string key)
+    //{
+    //    var redisValues = await _cache.ListGetAllAsync(key);
+    //    var objects = new List<T>();
+    //    foreach (var redisValue in redisValues)
+    //    {
+    //        var jsonString = redisValue.ToString();  // Convert RedisValue to string
+    //        var obj = JsonSerializer.Deserialize<T>(jsonString); // Deserialize to object
+    //        objects.Add(obj);
+    //    }
+    //    return objects;
+    //}
+
+    private  RedisValue ConvertToRedisValue<T>(T item)
+    {
+        return JsonSerializer.Serialize(item, _jsonSerializerOptions);
     }
 }

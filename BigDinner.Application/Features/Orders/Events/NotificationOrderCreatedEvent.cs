@@ -20,6 +20,9 @@ public class NotificationOrderCreatedEvent : INotificationHandler<OrderCreatedNo
 
         var cacheKey = $"{notification.Order.CustomerId}{notification.Order.Id}";
 
-        await _cache.SetAsync<Notification>(cacheKey, notify, TimeSpan.FromDays(30));
+        var list = new List<Notification>();
+        list.Add(notify);
+
+        await _cache.AddTolist<Notification>("notifications",list);
     }
 }

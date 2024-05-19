@@ -9,4 +9,6 @@ public interface IRedisCacheService
     Task Invalidate(string key);
 
     Task SetAsync<T>(string key,T notifications, TimeSpan expirDuration); // Set expiration time
+
+    Task AddTolist<T>(string key, List<T> list);
 }

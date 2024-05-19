@@ -1,7 +1,10 @@
-﻿namespace BigDinner.Domain.Models.Orders;
+﻿using System.Text.Json.Serialization;
+
+namespace BigDinner.Domain.Models.Orders;
 
 public class OrderItem : Entity<Guid>
 {
+    [JsonConstructor]
     private OrderItem(Guid id) : base(id)
     {
     }
