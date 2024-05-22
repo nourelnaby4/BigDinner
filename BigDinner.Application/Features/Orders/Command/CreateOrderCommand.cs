@@ -12,9 +12,7 @@ public sealed class CreateOrderCommandHandler : ResponseHandler,
     IRequestHandler<CreateOrderCommand, Response<string>>
 {
     private readonly IOrderRepository _orderRepository;
-
     private readonly IMenuRepository _menuRepository;
-
     private readonly IUnitOfWork _unitOfWork;
 
     public CreateOrderCommandHandler(
@@ -47,7 +45,7 @@ public sealed class CreateOrderCommandHandler : ResponseHandler,
     {
         foreach (var itemDto in request.Items)
         {
-            var menu = await _menuRepository.GetById(itemDto.MenuId);
+            var menu = await _menuRepository.GetByIdAsync(itemDto.MenuId);
 
             var menuItem = menu?.Items.FirstOrDefault(x => x.Id == itemDto.MenuItemId);
 

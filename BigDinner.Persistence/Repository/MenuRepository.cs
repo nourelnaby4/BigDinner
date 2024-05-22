@@ -6,6 +6,7 @@ public class MenuRepository : IMenuRepository
 {
     private readonly ApplicationDbContext _context;
     private readonly IRedisCacheService _cache;
+    public static string key = "menu";
 
     public MenuRepository(ApplicationDbContext context, IRedisCacheService cache)
     {
@@ -16,13 +17,11 @@ public class MenuRepository : IMenuRepository
     public void Add(Menu menu)
     {
         _context.Add(menu);
-        _cache.Invalidate("menus");
+        _cache.Invalidate(key);
     }
 
-    public async Task<List<Menu>> GetAll()
+    public async Task<List<Menu>> GetAsync()
     {
-        string key = "menus";
-
         return await _cache.Get(key, async () =>
         {
             return await _context.Menus
@@ -31,16 +30,21 @@ public class MenuRepository : IMenuRepository
         });
     }
 
-    public async Task<Menu?> GetById(Guid MenuId)
+    public async Task<Menu?> GetByIdAsync(Guid MenuId)
     {
-        string key = $"menus-{MenuId}";
-
-        return await _cache.Get(key, async () =>
+        return await _cache.Get($"{key}-{MenuId}", async () =>
         {
             return await _context.Menus
             .Where(x => x.Id == MenuId)
            .Include(x => x.Items)
            .SingleOrDefaultAsync();
         });
+    }
+
+    public void Update(Menu menu)
+    {
+        _context.Update(menu);
+        _cache.Invalidate($"{key}-{menu.Id}");
+        _cache.Invalidate(key);
     }
 }

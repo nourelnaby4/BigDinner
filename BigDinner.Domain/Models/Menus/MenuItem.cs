@@ -30,5 +30,12 @@ public sealed class MenuItem : Entity<Guid>
     {
         return new MenuItem(Guid.NewGuid(), name, description, price);
     }
+
+    public void UpdateInfo(string name, string description, Price price)
+    {
+        Price = price;
+        Name = name;
+        Description = description;
+    }
 }
 

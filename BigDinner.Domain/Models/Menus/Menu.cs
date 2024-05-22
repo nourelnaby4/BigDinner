@@ -37,6 +37,18 @@ public sealed class Menu : AggregateRoot<Guid>
 
         return menu;
     }
+    public void UpdateMenu(string name,string description)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            throw new ArgumentException("Name cannot be empty.");
+        }
+
+        Name = name;
+        Description = description;
+        LastUpdateDateOnUtc = DateTime.UtcNow;
+    }
+
 
     public void AddMenuItem(MenuItem item)
     {

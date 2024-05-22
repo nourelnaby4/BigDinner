@@ -19,4 +19,8 @@ public class MenusController : ControllerMain
     [HttpPost("create")]
     public async Task<IActionResult> Create([FromBody] CreateMenuCommand command)
         => GetResponse(await _mediator.Send(command));
+
+    [HttpPost("edit/{id}")]
+    public async Task<IActionResult> Edit(Guid id, [FromBody] EditMenuCommandRequest request)
+        => GetResponse(await _mediator.Send(new EditMenuCommand(id,request.Name,request.Description)));
 }
