@@ -1,6 +1,7 @@
 ﻿using BigDinner.Domain.Models.Base;
 using BigDinner.Persistence.Context;
 using BigDinner.Persistence.Interceptors;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json.Serialization;
@@ -21,7 +22,6 @@ public static class DatabaseModuleDependencies
 
             optionBuilder.UseSqlServer(connectioString)
             .AddInterceptors(interceptor);
-
         });
 
         services.AddControllers().AddJsonOptions(x =>

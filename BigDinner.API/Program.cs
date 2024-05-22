@@ -4,7 +4,10 @@ using BigDinner.API.Middleware;
 using BigDinner.Application;
 using BigDinner.Domain;
 using BigDinner.Persistence;
+using BigDinner.Persistence.Context;
 using BigDinner.Service;
+using Microsoft.EntityFrameworkCore;
+using Serilog;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,10 +16,10 @@ var configuration = builder.Configuration;
 
 builder.Services
     .AddApiDependencies(configuration)
-    .AddApplicationDependencies(configuration)
-    .AddDomainDependencies(configuration)
     .AddPersistenceDependencies(configuration)
     .AddDatabaseDependencies(configuration)
+    .AddApplicationDependencies(configuration)
+    .AddDomainDependencies(configuration)
     .AddServiceDependencies(configuration)
     .AddJWtTokenDependencies(configuration);
 
@@ -41,6 +44,13 @@ app.UseHttpsRedirection();
 app.UseCors(CORS);
 app.UseAuthorization();
 app.MapControllers();
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<ApplicationDbContext>();
+    context.Database.Migrate();
+}
+Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
 app.Run();
 
 

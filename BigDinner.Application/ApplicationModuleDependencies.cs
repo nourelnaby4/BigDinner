@@ -21,7 +21,6 @@ public static class ApplicationModuleDependencies
         
         services.AddAutoMapper(assembly);
 
-        Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
         services.AddSerilog();
 
         return services;

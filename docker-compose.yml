@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=db;Database=DinnerDb;User Id=sa;Password=NewStrongP@ssw0rd;TrustServerCertificate=True;
+      - Serilog__WriteTo__0__Args__ConnectionString=Server=db;Database=DinnerDb;User Id=sa;Password=NewStrongP@ssw0rd;TrustServerCertificate=True;
+      - Redis__ConnectionString=redis:6379
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      SA_PASSWORD: "NewStrongP@ssw0rd"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "8082:1433"
+    volumes:
+      - sqlvolume:/var/opt/mssql
+
+  redis:
+    image: "redis:latest"
+    ports:
+      - "6379:6379"
+
+volumes:
+  sqlvolume:
