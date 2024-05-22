@@ -23,4 +23,8 @@ public class CustomersController : ControllerMain
     [HttpPost("create")]
     public async Task<IActionResult> Create([FromBody] CreateCustomerCommand command)
         => GetResponse(await _mediator.Send(command));
+
+    [HttpPut("edit/{id}")]
+    public async Task<IActionResult> Edit(Guid id, [FromBody] EditCustomerRequest command)
+        => GetResponse(await _mediator.Send(new EditCustomerCommand(id, command.Phone, command.Address)));
 }

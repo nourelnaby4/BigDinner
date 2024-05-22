@@ -16,7 +16,7 @@ public class CustomerRepository : ICustomerRepository
     public void Add(Customer customer)
     {
         _context.Add(customer);
-        _cache.Invalidate("customer");
+        _cache.Invalidate("customers");
     }
 
     public async Task<IEnumerable<Customer>> GetAllAsync()
@@ -37,5 +37,12 @@ public class CustomerRepository : ICustomerRepository
         {
             return await _context.Customers.FindAsync(customerId);
         });
+    }
+
+    public void Update(Customer customer)
+    {
+        _context.Update(customer);
+        _cache.Invalidate("customers");
+        _cache.Invalidate($"customers-{customer.Id}");
     }
 }

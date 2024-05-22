@@ -38,15 +38,13 @@ public class Customer : AggregateRoot<Guid>
         return new Customer(Guid.NewGuid(), name, email, phone, address);
     }
 
-    public void UpdateInformation(string name, Email email, string phone, Address address)
+    public void UpdateInformation( string phone, Address address)
     {
         if (!IsValidPhone(phone))
         {
             throw new ArgumentException("Invalid phone number");
         }
 
-        Name = name;
-        Email = email;
         Phone = phone;
         Address = address;
     }

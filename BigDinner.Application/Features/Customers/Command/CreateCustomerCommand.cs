@@ -57,7 +57,7 @@ IRequestHandler<CreateCustomerCommand, Response<AuthResponse>>
             var createUserResult = await _userManager.CreateAsync(identityCustomer, request.Password);
             if (!createUserResult.Succeeded)
             {
-                throw new Exception("creation user is faild");
+                throw new Exception(createUserResult.Errors.Select(x=>x.Description).FirstOrDefault());
             }
 
             await _unitOfWork.CompleteAsync();
