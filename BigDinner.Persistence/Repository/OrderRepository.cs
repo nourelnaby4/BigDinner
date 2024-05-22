@@ -8,6 +8,7 @@ public class OrderRepository : IOrderRepository
 {
     private readonly ApplicationDbContext _context;
     private readonly IRedisCacheService _cache;
+    private const string key = "order";
 
     public OrderRepository(ApplicationDbContext context, IRedisCacheService cache)
     {
@@ -19,14 +20,12 @@ public class OrderRepository : IOrderRepository
     {
         _context.Add(order);
 
-        _cache.Invalidate("orderList").Wait();
+        _cache.Invalidate(key).Wait();
     }
 
 
     public async Task<IEnumerable<Order>> GetAll()
     {
-        var key = "orderList";
-
         return await _cache.Get(key, async () =>
         {
             return await _context.Orders
@@ -37,9 +36,7 @@ public class OrderRepository : IOrderRepository
     }
     public async Task<Order?> GetById(Guid orderId)
     {
-        var key = $"order-{orderId}";
-
-        return await _cache.Get(key, async () =>
+        return await _cache.Get($"{key}-{orderId}", async () =>
         {
            return await _context.Orders
            .Include(x => x.Items)

@@ -4,7 +4,9 @@ public interface IMenuRepository
 {
     void Add(Menu menu);
 
-    Task<List<Menu>> GetAll();
+    Task<List<Menu>> GetAsync();
 
-    Task<Menu?> GetById(Guid MenuId);
+    Task<Menu?> GetByIdAsync(Guid MenuId);
+
+    void Update(Menu menu);
 }

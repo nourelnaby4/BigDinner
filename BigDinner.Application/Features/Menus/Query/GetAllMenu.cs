@@ -14,9 +14,7 @@ public sealed class GetAllMenuQueryHandler : ResponseHandler,
     IRequestHandler<GetAllMenuQuery, Response<IEnumerable<GetAllMenuQueryResponse>>>
 {
     private readonly IMapper _mapper;
-
     private readonly IMenuRepository _menuRepository;
-
     private readonly IUnitOfWork _unitOfWork;
 
     public GetAllMenuQueryHandler(
@@ -33,7 +31,7 @@ public sealed class GetAllMenuQueryHandler : ResponseHandler,
         Handle(GetAllMenuQuery request, CancellationToken cancellationToken)
     {
 
-        var model = await _menuRepository.GetAll();
+        var model = await _menuRepository.GetAsync();
         var response = _mapper.Map<IEnumerable< GetAllMenuQueryResponse>>(model);
 
         return Success<IEnumerable<GetAllMenuQueryResponse>>(response);
