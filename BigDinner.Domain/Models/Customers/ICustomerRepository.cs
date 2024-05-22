@@ -7,4 +7,6 @@ public interface ICustomerRepository
     Task<IEnumerable<Customer>> GetAllAsync();
 
     Task<Customer?> GetByIdAsync(Guid customerId);
+
+    void Update(Customer customer);
 }
