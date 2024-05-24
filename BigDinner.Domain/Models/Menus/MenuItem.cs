@@ -13,22 +13,24 @@ public sealed class MenuItem : Entity<Guid>
 
     public Guid MenuId { get; private set; }
 
+
     [JsonConstructor]
     private MenuItem(Guid id) : base(id)
     {
     }
 
-    private MenuItem(Guid id, string name, string description, Price price) : base(id)
+    private MenuItem(Guid id,Guid menuId, string name, string description, Price price) : base(id)
     {
+        MenuId = menuId;
         Name = name;
         Description = description;
         Price = price;
     }
 
 
-    public static MenuItem Create(string name, string description, Price price)
+    public static MenuItem Create(Guid  menuId, string name, string description, Price price)
     {
-        return new MenuItem(Guid.NewGuid(), name, description, price);
+        return new MenuItem(Guid.NewGuid(), menuId, name, description, price);
     }
 
     public void UpdateInfo(string name, string description, Price price)

@@ -26,9 +26,9 @@ public class OrderItem : Entity<Guid>
         Price = price;
     }
 
-    public static OrderItem Create(string name, int quantity, Price price)
+    public static OrderItem Create(Guid orderId, string name, int quantity, Price price)
     {
-        return new OrderItem(Guid.NewGuid(),Guid.NewGuid(), name, quantity, price);
+        return new OrderItem(Guid.NewGuid(), orderId, name, quantity, price);
     }
 
 

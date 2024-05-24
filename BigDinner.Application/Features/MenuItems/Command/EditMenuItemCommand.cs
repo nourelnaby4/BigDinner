@@ -1,6 +1,6 @@
 ﻿using BigDinner.Domain.Models.Menus;
 
-namespace BigDinner.Application.MenuItems.Command;
+namespace BigDinner.Application.Features.MenuItems.Command;
 
 public record EditMenuItemCommandRequest(string Name, string Description, Price Price);
 

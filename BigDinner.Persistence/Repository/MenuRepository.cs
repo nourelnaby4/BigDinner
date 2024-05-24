@@ -36,8 +36,8 @@ public class MenuRepository : IMenuRepository
         {
             return await _context.Menus
             .Where(x => x.Id == MenuId)
-           .Include(x => x.Items)
-           .SingleOrDefaultAsync();
+            .Include(x => x.Items)
+            .SingleOrDefaultAsync();
         });
     }
 

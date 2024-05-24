@@ -5,6 +5,7 @@ using BigDinner.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -12,9 +13,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BigDinner.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class DinnerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240523210645_updateMenuAggregateRelation")]
+    partial class updateMenuAggregateRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -180,7 +183,7 @@ namespace BigDinner.Persistence.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<Guid>("MenuId")
+                    b.Property<Guid?>("MenuId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
@@ -486,9 +489,7 @@ namespace BigDinner.Persistence.Migrations
                 {
                     b.HasOne("BigDinner.Domain.Models.Menus.Menu", null)
                         .WithMany("Items")
-                        .HasForeignKey("MenuId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MenuId");
                 });
 
             modelBuilder.Entity("BigDinner.Domain.Models.Orders.Order", b =>

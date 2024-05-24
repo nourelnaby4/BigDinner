@@ -51,7 +51,7 @@ public sealed class CreateOrderCommandHandler : ResponseHandler,
 
             if (menuItem is not null)
             {
-                order.addOrderItem(OrderItem.Create(menuItem.Name, itemDto.Quantity, menuItem.Price));
+                order.addOrderItem(OrderItem.Create(menu.Id, menuItem.Name, itemDto.Quantity, menuItem.Price));
             }
         }
     }

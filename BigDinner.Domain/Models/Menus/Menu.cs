@@ -16,6 +16,7 @@ public sealed class Menu : AggregateRoot<Guid>
 
     public DateTime LastUpdateDateOnUtc { get; private set; }
 
+    [JsonIgnore]
     public IReadOnlyList<MenuItem> Items => _items.ToList();
 
     [JsonConstructor]
@@ -50,14 +51,17 @@ public sealed class Menu : AggregateRoot<Guid>
     }
 
 
-    public void AddMenuItem(MenuItem item)
+    public void AddMenuItem(string name, string description, Price price)
     {
-        _items.Add(item);
+        var menuItem = MenuItem.Create(this.Id, name, description, price);
+        _items.Add(menuItem);
+        LastUpdateDateOnUtc = DateTime.UtcNow;
     }
 
     public void RemoveMenuItem(MenuItem item)
     {
         _items.Remove(item);
+        LastUpdateDateOnUtc = DateTime.UtcNow;
     }
 
     public Price CalculateTotalPrice()

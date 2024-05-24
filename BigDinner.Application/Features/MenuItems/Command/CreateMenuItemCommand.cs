@@ -1,6 +1,6 @@
 ﻿using BigDinner.Domain.Models.Menus;
 
-namespace BigDinner.Application.MenuItems.Command;
+namespace BigDinner.Application.Features.MenuItems.Command;
 
 public record CreateMenuItemCommandRequest(string Name, string Description, Price Price);
 
@@ -27,11 +27,11 @@ public sealed class CreateMenuItemCommandHandler : ResponseHandler,
         if (menu is null)
             return NotFound<string>("menu is not found");
 
-        foreach (var item in menu.Items)
+        foreach (var item in request.items)
         {
-            var menuItem = MenuItem.Create(item.Name, item.Description, item.Price);
-            menu.AddMenuItem(menuItem);
+            menu.AddMenuItem(item.Name, item.Description, item.Price);
         }
+       await Task.CompletedTask;
 
         _menuRepository.Update(menu);
 

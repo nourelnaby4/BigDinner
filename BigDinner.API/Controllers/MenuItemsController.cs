@@ -1,5 +1,5 @@
 ﻿using BigDinner.API.Base;
-using BigDinner.Application.MenuItems.Command;
+using BigDinner.Application.Features.MenuItems.Command;
 
 namespace BigDinner.API.Controllers;
 
