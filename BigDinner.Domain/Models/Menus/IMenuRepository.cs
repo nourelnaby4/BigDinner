@@ -8,5 +8,7 @@ public interface IMenuRepository
 
     Task<Menu?> GetByIdAsync(Guid MenuId);
 
+    Task<Menu?> GetMenuItemByIdAsync(Guid menuId,Guid menuItemId);
+
     void Update(Menu menu);
 }

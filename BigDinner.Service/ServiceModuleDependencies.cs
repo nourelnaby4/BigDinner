@@ -37,7 +37,7 @@ public static class ServiceModuleDependencies
         var cacheExpirationMinutes = configuration.GetSection("MemoryCacheSettings")
             .GetValue<int>("DefaultCacheExpirationMinutes");
 
-        services.AddScoped<IMemoryCacheService, MemoryCacheService>();
+        //services.AddScoped<IMemoryCacheService, MemoryCacheService>();
         services.AddMemoryCache(options =>
         {
             options.ExpirationScanFrequency = TimeSpan.FromMinutes(5); // Optional: Set the frequency for scanning expired items
@@ -64,7 +64,7 @@ public static class ServiceModuleDependencies
             ContractResolver = new PrivateResolver(),
         });
 
-        services.AddScoped<IRedisCacheService, RedisCacheService>();
+        services.AddScoped<IRedisCacheService, MemoryCacheService>();
 
         services.Configure<RedisSetting>(configuration.GetSection(RedisSetting.SectionName));
         services.AddSingleton(sp => sp.GetRequiredService<IOptions<RedisSetting>>().Value);

@@ -1,4 +1,5 @@
 ﻿using BigDinner.Domain.Models.Menus;
+using Microsoft.EntityFrameworkCore;
 
 namespace BigDinner.Application.Features.MenuItems.Command;
 
@@ -22,21 +23,20 @@ public sealed class CreateMenuItemCommandHandler : ResponseHandler,
 
     public async Task<Response<string>> Handle(CreateMenuItemCommand request, CancellationToken cancellationToken)
     {
-        var menu = await _menuRepository.GetByIdAsync(request.MenuId);
+        var menu = _menuRepository.GetByIdAsync(request.MenuId).Result;
 
         if (menu is null)
-            return NotFound<string>("menu is not found");
+            return NotFound<string>("Menu not found");
 
         foreach (var item in request.items)
         {
             menu.AddMenuItem(item.Name, item.Description, item.Price);
         }
-       await Task.CompletedTask;
 
         _menuRepository.Update(menu);
 
         await _unitOfWork.CompleteAsync();
 
-        return Created(string.Empty);
+        return Created("MenuItems added successfully");
     }
 }

@@ -19,7 +19,8 @@ public class Order : AggregateRoot<Guid>
 
     public Shipping Shipping { get; private set; }
 
-    public IReadOnlyList<OrderItem> Items => _items.ToList();
+    [JsonIgnore]
+    public IReadOnlyList<OrderItem> Items => _items.AsReadOnly();
 
     //public Payment Payment { get; private set; }
 
@@ -45,9 +46,10 @@ public class Order : AggregateRoot<Guid>
         return new Order(Guid.NewGuid(), Guid.NewGuid(), customerId, shippingMethodId, address);
     }
 
-    public void addOrderItem(OrderItem item)
+    public void AddOrderItem(string itemName,int itemQuantity, Price itemPrice)
     {
-        _items.Add(item);
+        var orderItem = OrderItem.Create(this.Id, itemName, itemQuantity, itemPrice);
+        _items.Add(orderItem);
     }
 
     public void ChangeOrderStatus(OrderStatus status)
@@ -59,9 +61,9 @@ public class Order : AggregateRoot<Guid>
     {
         decimal totalPrice = 0;
 
-        foreach (var menuItem in _items)
+        foreach (var orderItem in _items)
         {
-            totalPrice += menuItem.Price.Value;
+            totalPrice += (orderItem.Price.Value) * orderItem.Quantity;
         }
 
         return new Price(totalPrice);

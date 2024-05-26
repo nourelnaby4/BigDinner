@@ -3,10 +3,10 @@ using BigDinner.Domain.Models.Orders;
 
 namespace BigDinner.Application.Features.Orders.Command;
 
-public record CreateOrderCommand(Guid CustomerId, Address Address, Guid ShippingMethodId, List<OrderItemDto> Items)
+public record CreateOrderCommand(Guid CustomerId, Address Address, Guid ShippingMethodId, List<CreatedOrderItemDto> Items)
     : IRequest<Response<string>>;
 
-public record OrderItemDto(Guid MenuId, Guid MenuItemId, int Quantity);
+public record CreatedOrderItemDto(Guid MenuId, Guid MenuItemId, int Quantity);
 
 public sealed class CreateOrderCommandHandler : ResponseHandler,
     IRequestHandler<CreateOrderCommand, Response<string>>
@@ -30,19 +30,6 @@ public sealed class CreateOrderCommandHandler : ResponseHandler,
     {
         var order = Order.Create(request.CustomerId, request.ShippingMethodId, request.Address);
 
-        await AddItemsToOrder(request, order);
-
-        order.ChangeOrderStatus(OrderStatus.Confirmed);
-
-        _orderRepository.Add(order);
-
-        await _unitOfWork.CompleteAsync();
-
-        return Created("Created Successfully");
-    }
-
-    private async Task AddItemsToOrder(CreateOrderCommand request, Order order)
-    {
         foreach (var itemDto in request.Items)
         {
             var menu = await _menuRepository.GetByIdAsync(itemDto.MenuId);
@@ -51,8 +38,16 @@ public sealed class CreateOrderCommandHandler : ResponseHandler,
 
             if (menuItem is not null)
             {
-                order.addOrderItem(OrderItem.Create(menu.Id, menuItem.Name, itemDto.Quantity, menuItem.Price));
+                order.AddOrderItem(menuItem.Name, itemDto.Quantity, menuItem.Price);
             }
         }
+
+        order.ChangeOrderStatus(OrderStatus.Pending);
+
+        await _orderRepository.AddAsync(order);
+
+        await _unitOfWork.CompleteAsync();
+
+        return Created("Created Successfully");
     }
 }

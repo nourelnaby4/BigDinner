@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace BigDinner.Service.Cache;
 
-public class MemoryCacheService : IMemoryCacheService
+public class MemoryCacheService : IRedisCacheService
 {
     private readonly IMemoryCache _memoryCache;
 

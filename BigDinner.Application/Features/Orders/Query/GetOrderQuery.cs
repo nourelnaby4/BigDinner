@@ -34,7 +34,7 @@ public sealed class GetOrderQueryHandler : ResponseHandler,
 
     public async Task<Response<IEnumerable<GetOrderQueryResposne>>> Handle(GetOrderQuery request, CancellationToken cancellationToken)
     {
-        var model = await _orderRepository.GetAll();
+        var model = await _orderRepository.GetAsync();
 
         var response = _mapper.Map<IEnumerable<GetOrderQueryResposne>>(model);
 
@@ -48,9 +48,8 @@ public class GetOrderQueryProfile : Profile
     {
         CreateMap<Order, GetOrderQueryResposne>()
             .ForMember(desc => desc.OrderId, option => option.MapFrom(src => src.Id))
-            .ForMember(desc => desc.OrderStatus, option => option.MapFrom(src => nameof(src.OrderStatus)))
-            .ForMember(desc => desc.ShippingStatus, option => option.MapFrom(src => nameof(src.Shipping.Status)))
+            .ForMember(desc => desc.OrderStatus, option => option.MapFrom(src => src.OrderStatus.ToString()))
+            .ForMember(desc => desc.ShippingStatus, option => option.MapFrom(src => src.Shipping.Status.ToString()))
             .ForMember(desc => desc.TotalPrice, option => option.MapFrom(src => src.CalculateTotalPrice()));
-
     }
 }

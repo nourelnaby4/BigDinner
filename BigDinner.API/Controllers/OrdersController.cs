@@ -19,4 +19,8 @@ public class OrdersController : ControllerMain
     [HttpPost("create")]
     public async Task<IActionResult> Create([FromBody] CreateOrderCommand command)
         => GetResponse(await _mediator.Send(command));
+
+    [HttpPut("edit/{orderId}")]
+    public async Task<IActionResult> Edit(Guid orderId, [FromBody] EditOrderItemDto request)
+        => GetResponse(await _mediator.Send(new EditOrderCommand(orderId, request)));
 }

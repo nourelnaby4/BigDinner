@@ -9,17 +9,18 @@ public class OrderItem : Entity<Guid>
     {
     }
 
-    public string Name { get;private set; }
+    public string Name { get; private set; }
 
-    public int Quantity  { get;private set; }
+    public int Quantity { get; private set; }
 
-    public Price Price { get;private set; }
+    public Price Price { get; private set; }
 
     public Guid OrderId { get; private set; }
 
 
-    private OrderItem(Guid id, Guid orderId, string name, int quantity, Price price)  :base(id)
+    private OrderItem(Guid id, Guid orderId, string name, int quantity, Price price) : base(id)
     {
+        
         OrderId = orderId;
         Name = name;
         Quantity = quantity;
@@ -31,6 +32,12 @@ public class OrderItem : Entity<Guid>
         return new OrderItem(Guid.NewGuid(), orderId, name, quantity, price);
     }
 
+    public void UpdateItem(string name, int quantity, Price price)
+    {
+        Name = name;
+        Quantity = quantity;
+        Price = price;
+    }
 
     public Price CalculateTotalPrice()
     {

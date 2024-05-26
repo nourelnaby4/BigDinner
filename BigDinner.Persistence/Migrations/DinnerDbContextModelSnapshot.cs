@@ -136,7 +136,7 @@ namespace BigDinner.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customers", (string)null);
                 });
 
             modelBuilder.Entity("BigDinner.Domain.Models.Menus.Menu", b =>
@@ -166,7 +166,7 @@ namespace BigDinner.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Menus");
+                    b.ToTable("Menus", (string)null);
                 });
 
             modelBuilder.Entity("BigDinner.Domain.Models.Menus.MenuItem", b =>
@@ -204,7 +204,7 @@ namespace BigDinner.Persistence.Migrations
 
                     b.HasIndex("MenuId");
 
-                    b.ToTable("MenuItem");
+                    b.ToTable("MenuItem", (string)null);
                 });
 
             modelBuilder.Entity("BigDinner.Domain.Models.Orders.Order", b =>
@@ -230,7 +230,7 @@ namespace BigDinner.Persistence.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("BigDinner.Domain.Models.Orders.OrderItem", b =>
@@ -266,7 +266,7 @@ namespace BigDinner.Persistence.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItem");
+                    b.ToTable("OrderItem", (string)null);
                 });
 
             modelBuilder.Entity("BigDinner.Domain.Models.Shippings.Shipping", b =>
@@ -297,7 +297,7 @@ namespace BigDinner.Persistence.Migrations
                     b.HasIndex("TrackingNumber")
                         .IsUnique();
 
-                    b.ToTable("Shipping");
+                    b.ToTable("Shipping", (string)null);
                 });
 
             modelBuilder.Entity("BigDinner.Domain.Models.Shippings.ShippingMethod", b =>
@@ -318,7 +318,7 @@ namespace BigDinner.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ShippingMethod");
+                    b.ToTable("ShippingMethod", (string)null);
                 });
 
             modelBuilder.Entity("BigDinner.Persistence.OutboxMessages.OutboxMessage", b =>
@@ -346,7 +346,7 @@ namespace BigDinner.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OutboxMessage");
+                    b.ToTable("OutboxMessage", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -522,7 +522,7 @@ namespace BigDinner.Persistence.Migrations
                         .HasForeignKey("ShippingMethodId")
                         .IsRequired();
 
-                    b.OwnsOne("BigDinner.Domain.ValueObjects.Address", "Address", b1 =>
+                    b.OwnsOne("BigDinner.Domain.Models.Shippings.Shipping.Address#BigDinner.Domain.ValueObjects.Address", "Address", b1 =>
                         {
                             b1.Property<Guid>("ShippingId")
                                 .HasColumnType("uniqueidentifier");
@@ -544,7 +544,7 @@ namespace BigDinner.Persistence.Migrations
 
                             b1.HasKey("ShippingId");
 
-                            b1.ToTable("Shipping");
+                            b1.ToTable("Shipping", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("ShippingId");

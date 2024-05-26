@@ -4,7 +4,7 @@ namespace BigDinner.Domain.Models.Menus;
 
 public sealed class Menu : AggregateRoot<Guid>
 {
-    private readonly List<MenuItem> _items = new();
+    private  List<MenuItem> _items = new();
 
     public string Name { get; private set; }
 
@@ -17,7 +17,7 @@ public sealed class Menu : AggregateRoot<Guid>
     public DateTime LastUpdateDateOnUtc { get; private set; }
 
     [JsonIgnore]
-    public IReadOnlyList<MenuItem> Items => _items.ToList();
+    public IReadOnlyList<MenuItem> Items => _items.AsReadOnly();
 
     [JsonConstructor]
     private Menu(Guid id) : base(id) { }
@@ -55,7 +55,7 @@ public sealed class Menu : AggregateRoot<Guid>
     {
         var menuItem = MenuItem.Create(this.Id, name, description, price);
         _items.Add(menuItem);
-        LastUpdateDateOnUtc = DateTime.UtcNow;
+         LastUpdateDateOnUtc = DateTime.UtcNow;
     }
 
     public void RemoveMenuItem(MenuItem item)

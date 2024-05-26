@@ -4,9 +4,11 @@ namespace BigDinner.Domain.Models.Orders;
 
 public interface IOrderRepository
 {
-    void Add(Order order);
+    Task AddAsync(Order order);
 
-    Task<IEnumerable<Order>> GetAll();
+    Task<IEnumerable<Order>> GetAsync();
 
-    Task<Order?> GetById(Guid orderId);
+    Task<Order?> GetByIdAsync(Guid orderId);
+
+    Task UpdateAsync(Order order);
 }
