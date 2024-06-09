@@ -15,7 +15,7 @@ public class Order : AggregateRoot<Guid>
 
     public Guid CustomerId { get; private set; }
 
-    public OrderStatus OrderStatus { get; private set; }
+    public OrderStatus OrderStatus { get; private set; } 
 
     public Shipping Shipping { get; private set; }
 

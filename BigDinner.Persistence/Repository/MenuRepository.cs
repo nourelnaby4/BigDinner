@@ -59,7 +59,7 @@ public class MenuRepository : IMenuRepository
     {
         return await _context.Menus
              .Where(x => x.Id == menuId)
-             .Include(x => x.Items.FirstOrDefault(it=>it.Id==menuItemId))
+             .Include(x => x.Items.Where(it=>it.Id==menuItemId))
              .AsSplitQuery()
              .SingleOrDefaultAsync();
     }
