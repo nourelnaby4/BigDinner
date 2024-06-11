@@ -23,22 +23,22 @@ public class Customer : AggregateRoot<Guid>
     private Customer(Guid id, string name, Email email, string phone, Address address) : base(id)
     {
         Name = name;
-        Email =email;
+        Email = email;
         Phone = phone;
         Address = address;
     }
 
-    public static Customer Create(string name, Email email, string phone, Address address) 
+    public static Customer Create(string name, Email email, string phone, Address address, Guid? id=null)
     {
         if (!IsValidPhone(phone))
         {
             throw new ArgumentException("Invalid phone number");
         }
 
-        return new Customer(Guid.NewGuid(), name, email, phone, address);
+        return new Customer(id ?? Guid.NewGuid(), name, email, phone, address);
     }
 
-    public void UpdateInformation( string phone, Address address)
+    public void UpdateInformation(string phone, Address address)
     {
         if (!IsValidPhone(phone))
         {

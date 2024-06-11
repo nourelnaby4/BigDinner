@@ -41,9 +41,9 @@ public sealed class GetAllCustomerQueryHandler : ResponseHandler,
     }
 }
 
-public sealed class GetAllCustomerProfile : Profile
+public sealed class GetCustomerProfile : Profile
 {
-    public GetAllCustomerProfile()
+    public GetCustomerProfile()
     {
         CreateMap<Customer,GetCustomerQueryResposne>(); 
     }
