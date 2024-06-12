@@ -11,4 +11,6 @@ public interface IOrderRepository
     Task<Order?> GetByIdAsync(Guid orderId);
 
     Task UpdateAsync(Order order);
+
+    Task<PaginatedResult<Order>> GetPaginationList(int pageNumber = 1, int pageSize = 10);
 }
