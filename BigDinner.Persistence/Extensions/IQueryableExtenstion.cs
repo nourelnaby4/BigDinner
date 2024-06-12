@@ -20,8 +20,7 @@ public static class IQueryableExtenstion
 
         pageNumber = pageNumber <= 0 ? 1 : pageNumber;
 
-        var items = await source
-                                .Skip((pageNumber - 1) * pageSize)
+        var items = await source.Skip((pageNumber - 1) * pageSize)
                                 .Take(pageSize)
                                 .ToListAsync();
 

@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EntityFrameworkCore.Testing.Moq" Version="8.0.0" />
     <PackageReference Include="FluentAssertions" Version="6.12.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
     <PackageReference Include="Moq" Version="4.20.70" />
@@ -25,8 +26,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BigDinner.API\BigDinner.API.csproj" />
     <ProjectReference Include="..\BigDinner.Application\BigDinner.Application.csproj" />
     <ProjectReference Include="..\BigDinner.Domain\BigDinner.Domain.csproj" />
+    <ProjectReference Include="..\BigDinner.Persistence\BigDinner.Persistence.csproj" />
+    <ProjectReference Include="..\BigDinner.Service\BigDinner.Service.csproj" />
   </ItemGroup>
 
 </Project>
